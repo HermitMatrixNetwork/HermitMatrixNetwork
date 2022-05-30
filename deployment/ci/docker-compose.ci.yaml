@@ -22,8 +22,8 @@ services:
       - /dev/sgx/enclave
     volumes:
       - /var/run/aesmd:/var/run/aesmd
-      - /tmp/secretd:/root/.secretd
-      - /tmp/secretcli:/root/.secretcli
+      - /tmp/ghmd:/root/.ghmd
+      - /tmp/ghmcli:/root/.ghmcli
     stdin_open: true
     tty: true
     deploy:
@@ -41,8 +41,8 @@ services:
       - /dev/sgx/enclave
     volumes:
       - /var/run/aesmd:/var/run/aesmd
-      - /tmp/secretd:/root/.secretd
-      # - /tmp/secretcli:/root/.secretcli
+      - /tmp/ghmd:/root/.ghmd
+      # - /tmp/ghmcli:/root/.ghmcli
     stdin_open: true
     tty: true
     environment:
@@ -60,8 +60,8 @@ services:
       - /dev/sgx/enclave
     volumes:
       - /var/run/aesmd:/var/run/aesmd
-      - /tmp/secretd:/tmp/.secretd
-      # - /tmp/secretcli:/root/.secretcli
+      - /tmp/ghmd:/tmp/.ghmd
+      # - /tmp/ghmcli:/root/.ghmcli
     stdin_open: true
     tty: true
     environment:
@@ -76,8 +76,8 @@ services:
       - /dev/sgx/enclave
     volumes:
       - /var/run/aesmd:/var/run/aesmd
-      - /tmp/secretd:/tmp/.secretd
-      - /tmp/secretcli:/root/.secretcli
+      - /tmp/ghmd:/tmp/.ghmd
+      - /tmp/ghmcli:/root/.ghmcli
     stdin_open: true
     tty: true
     environment:

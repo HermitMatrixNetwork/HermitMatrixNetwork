@@ -1,5 +1,5 @@
-//go:build !secretcli
-// +build !secretcli
+//go:build !ghmcli
+// +build !ghmcli
 
 package main
 
@@ -9,15 +9,15 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/api"
+	reg "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration"
+	ra "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/remote_attestation"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/server"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
-	"github.com/enigmampc/SecretNetwork/go-cosmwasm/api"
-	reg "github.com/enigmampc/SecretNetwork/x/registration"
-	ra "github.com/enigmampc/SecretNetwork/x/registration/remote_attestation"
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
@@ -48,9 +48,9 @@ blockchain. Writes the certificate in DER format to ~/attestation_cert
 		Args: cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 
-			sgxSecretsDir := os.Getenv("SCRT_SGX_STORAGE")
+			sgxSecretsDir := os.Getenv("GHM_SGX_STORAGE")
 			if sgxSecretsDir == "" {
-				sgxSecretsDir = os.ExpandEnv("/opt/secret/.sgx_secrets")
+				sgxSecretsDir = os.ExpandEnv("/opt/ghm/.sgx_ghms")
 			}
 
 			// create sgx secrets dir if it doesn't exist
@@ -278,7 +278,7 @@ func ConfigureSecret() *cobra.Command {
 				return err
 			}
 
-			// Create .secretd/.node directory if it doesn't exist
+			// Create .ghmd/.node directory if it doesn't exist
 			nodeDir := filepath.Join(homeDir, reg.SecretNodeCfgFolder)
 			err = os.MkdirAll(nodeDir, os.ModePerm)
 			if err != nil {
@@ -334,7 +334,7 @@ func ResetEnclave() *cobra.Command {
 				return err
 			}
 
-			// Remove .secretd/.node/seed.json
+			// Remove .ghmd/.node/seed.json
 			path := filepath.Join(homeDir, reg.SecretNodeCfgFolder, reg.SecretNodeSeedConfig)
 			if _, err := os.Stat(path); !os.IsNotExist(err) {
 				fmt.Printf("Removing %s\n", path)
@@ -349,9 +349,9 @@ func ResetEnclave() *cobra.Command {
 			}
 
 			// remove sgx_secrets
-			sgxSecretsDir := os.Getenv("SCRT_SGX_STORAGE")
+			sgxSecretsDir := os.Getenv("GHM_SGX_STORAGE")
 			if sgxSecretsDir == "" {
-				sgxSecretsDir = os.ExpandEnv("/opt/secret/.sgx_secrets")
+				sgxSecretsDir = os.ExpandEnv("/opt/ghm/.sgx_ghms")
 			}
 			if _, err := os.Stat(sgxSecretsDir); !os.IsNotExist(err) {
 				fmt.Printf("Removing %s\n", sgxSecretsDir)
@@ -403,9 +403,9 @@ Please report any issues with this command
 		Args: cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 
-			sgxSecretsFolder := os.Getenv("SCRT_SGX_STORAGE")
+			sgxSecretsFolder := os.Getenv("GHM_SGX_STORAGE")
 			if sgxSecretsFolder == "" {
-				sgxSecretsFolder = os.ExpandEnv("/opt/secret/.sgx_secrets")
+				sgxSecretsFolder = os.ExpandEnv("/opt/ghm/.sgx_ghms")
 			}
 
 			sgxEnclaveKeyPath := filepath.Join(sgxSecretsFolder, reg.EnclaveRegistrationKey)

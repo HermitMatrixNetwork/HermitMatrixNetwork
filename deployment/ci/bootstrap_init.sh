@@ -2,30 +2,30 @@
 
 set -euvo pipefail
 
-rm -rf ~/.secretd/*
-rm -rf /opt/secret/.sgx_secrets/*
+rm -rf ~/.ghmd/*
+rm -rf /opt/ghm/.sgx_ghms/*
 
-secretd config chain-id secretdev-1
-secretd config keyring-backend test
+ghmd config chain-id ghmdev-1
+ghmd config keyring-backend test
 
-secretd init banana --chain-id secretdev-1
+ghmd init banana --chain-id ghmdev-1
 
-cp ~/node_key.json ~/.secretd/config/node_key.json
-perl -i -pe 's/"stake"/ "uscrt"/g' ~/.secretd/config/genesis.json
+cp ~/node_key.json ~/.ghmd/config/node_key.json
+perl -i -pe 's/"stake"/ "uscrt"/g' ~/.ghmd/config/genesis.json
 
-secretd keys add a
-secretd keys add b
-secretd keys add c
-secretd keys add d
+ghmd keys add a
+ghmd keys add b
+ghmd keys add c
+ghmd keys add d
 
-secretd add-genesis-account "$(secretd keys show -a a)" 1000000000000000000uscrt
+ghmd add-genesis-account "$(ghmd keys show -a a)" 1000000000000000000uscrt
 
-secretd gentx a 1000000uscrt --chain-id secretdev-1
+ghmd gentx a 1000000uscrt --chain-id ghmdev-1
 
-secretd collect-gentxs
-secretd validate-genesis
+ghmd collect-gentxs
+ghmd validate-genesis
 
-secretd init-bootstrap
-secretd validate-genesis
+ghmd init-bootstrap
+ghmd validate-genesis
 
-source /opt/sgxsdk/environment && RUST_BACKTRACE=1 secretd start --rpc.laddr tcp://0.0.0.0:26657 --bootstrap
+source /opt/sgxsdk/environment && RUST_BACKTRACE=1 ghmd start --rpc.laddr tcp://0.0.0.0:26657 --bootstrap

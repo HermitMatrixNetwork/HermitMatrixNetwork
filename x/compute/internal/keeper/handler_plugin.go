@@ -8,10 +8,10 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	wasmTypes "github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	wasmTypes "github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
 )
 
 type MessageHandler struct {

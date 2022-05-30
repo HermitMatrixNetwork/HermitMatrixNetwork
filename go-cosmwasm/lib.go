@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/enigmampc/SecretNetwork/go-cosmwasm/api"
-	"github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/api"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
 )
 
 // CodeID represents an ID for a given wasm code blob, must be generated from this library

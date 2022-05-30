@@ -2,7 +2,7 @@ package keeper
 
 /*
 import (
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

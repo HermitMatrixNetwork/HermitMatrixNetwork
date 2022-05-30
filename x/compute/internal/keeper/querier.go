@@ -6,9 +6,9 @@ import (
 
 	"github.com/golang/protobuf/ptypes/empty"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
 )
 
 type GrpcQuerier struct {

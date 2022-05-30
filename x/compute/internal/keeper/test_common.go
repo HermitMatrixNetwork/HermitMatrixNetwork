@@ -77,8 +77,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/upgrade"
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 
-	wasmtypes "github.com/enigmampc/SecretNetwork/x/compute/internal/types"
-	"github.com/enigmampc/SecretNetwork/x/registration"
+	wasmtypes "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration"
 )
 
 const flagLRUCacheSize = "lru_size"

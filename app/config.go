@@ -1,6 +1,9 @@
 package app
 
 import (
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute"
+	icaauth "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/codec/types"
@@ -47,9 +50,6 @@ import (
 	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
 	ibc "github.com/cosmos/ibc-go/v3/modules/core"
 	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/enigmampc/SecretNetwork/x/compute"
-	icaauth "github.com/enigmampc/SecretNetwork/x/mauth"
-	"github.com/enigmampc/SecretNetwork/x/registration"
 )
 
 var (

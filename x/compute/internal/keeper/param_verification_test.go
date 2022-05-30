@@ -18,7 +18,7 @@ import (
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 )
 
 func getSignBytes(

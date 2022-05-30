@@ -2,8 +2,8 @@ package client
 
 /*
 import (
-	"github.com/enigmampc/SecretNetwork/x/compute/client/cli"
-	"github.com/enigmampc/SecretNetwork/x/compute/client/rest"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/client/cli"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/client/rest"
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 )
 

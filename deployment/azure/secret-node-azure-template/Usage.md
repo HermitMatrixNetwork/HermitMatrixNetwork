@@ -57,7 +57,7 @@ The actual node runs in a docker image on the machine that is created. However, 
 
 ### Commands
 
-`secretd`, `secretcli` - will work as you would normally expect
+`ghmd`, `ghmcli` - will work as you would normally expect
 
 `show-node-id` - will print out the p2p address of the node
 `show-validator` - will print out the validator consensus public key, which is used when creating a validator

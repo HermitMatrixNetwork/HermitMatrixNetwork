@@ -4,9 +4,9 @@ import (
 	"context"
 	"github.com/golang/protobuf/ptypes/empty"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/types"
 )
 
 type GrpcQuerier struct {

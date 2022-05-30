@@ -1,4 +1,5 @@
-// +build !secretcli
+//go:build !ghmcli
+// +build !ghmcli
 
 package api
 

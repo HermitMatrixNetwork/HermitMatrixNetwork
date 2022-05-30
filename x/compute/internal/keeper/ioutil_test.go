@@ -11,7 +11,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 )
 
 func TestUncompress(t *testing.T) {

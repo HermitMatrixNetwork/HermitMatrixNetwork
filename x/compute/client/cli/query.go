@@ -15,8 +15,8 @@ import (
 	"io/ioutil"
 	"strconv"
 
+	cosmwasmTypes "github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
 	sdkErrors "github.com/cosmos/cosmos-sdk/types/errors"
-	cosmwasmTypes "github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
 	flag "github.com/spf13/pflag"
 
 	"github.com/spf13/cobra"
@@ -25,10 +25,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	wasmUtils "github.com/enigmampc/SecretNetwork/x/compute/client/utils"
+	wasmUtils "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/client/utils"
 
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/keeper"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/keeper"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 )
 
 func GetQueryCmd() *cobra.Command {

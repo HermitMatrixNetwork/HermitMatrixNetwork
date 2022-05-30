@@ -2,8 +2,8 @@ package keeper_test
 
 import (
 	"encoding/json"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute"
 	"github.com/cosmos/cosmos-sdk/simapp"
-	"github.com/enigmampc/SecretNetwork/x/compute"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -16,7 +16,7 @@ import (
 	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
 	ibctesting "github.com/cosmos/ibc-go/v3/testing"
 
-	icaapp "github.com/enigmampc/SecretNetwork/app"
+	icaapp "github.com/HermitMatrixNetwork/HermitMatrixNetwork/app"
 )
 
 var (

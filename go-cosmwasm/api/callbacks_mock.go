@@ -1,4 +1,5 @@
-// +build secretcli
+//go:build ghmcli
+// +build ghmcli
 
 package api
 
@@ -42,7 +43,7 @@ package api
 //
 //	dbm "github.com/tendermint/tm-db"
 //
-//	"github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
+//	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
 //)
 //
 //type i32 = uint32

@@ -40,28 +40,28 @@ RUN cp /opt/sgxsdk/lib64/libsgx_uae_service_sim.so /usr/lib/libsgx_uae_service_s
 WORKDIR /root
 
 # Copy over binaries from the build-env
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/target/release/libgo_cosmwasm.so /usr/lib/
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/librust_cosmwasm_enclave.signed.so /usr/lib/
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/librust_cosmwasm_query_enclave.signed.so /usr/lib/
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/secretd /usr/bin/secretd
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/target/release/libgo_cosmwasm.so /usr/lib/
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/librust_cosmwasm_enclave.signed.so /usr/lib/
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/librust_cosmwasm_query_enclave.signed.so /usr/lib/
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ghmd /usr/bin/ghmd
 
 COPY deployment/docker/bootstrap/bootstrap_init.sh .
 COPY deployment/docker/node/node_init.sh .
 COPY deployment/docker/startup.sh .
 COPY deployment/docker/node_key.json .
 
-RUN chmod +x /usr/bin/secretd
+RUN chmod +x /usr/bin/ghmd
 RUN chmod +x bootstrap_init.sh
 RUN chmod +x startup.sh
 RUN chmod +x node_init.sh
 
-RUN secretd completion > /root/secretd_completion
+RUN ghmd completion > /root/ghmd_completion
 
-RUN echo 'source /root/secretd_completion' >> ~/.bashrc
+RUN echo 'source /root/ghmd_completion' >> ~/.bashrc
 
-RUN mkdir -p /root/.secretd/.compute/
-RUN mkdir -p /opt/secret/.sgx_secrets/
-RUN mkdir -p /root/.secretd/.node/
+RUN mkdir -p /root/.ghmd/.compute/
+RUN mkdir -p /opt/ghm/.sgx_ghms/
+RUN mkdir -p /root/.ghmd/.node/
 RUN mkdir -p /root/config/
 
 
@@ -79,5 +79,5 @@ ENV PERSISTENT_PEERS="${PERSISTENT_PEERS}"
 
 #ENV LD_LIBRARY_PATH=/opt/sgxsdk/libsgx-enclave-common/:/opt/sgxsdk/lib64/
 
-# Run secretd by default, omit entrypoint to ease using container with secretcli
+# Run ghmd by default, omit entrypoint to ease using container with ghmcli
 ENTRYPOINT ["/bin/bash", "startup.sh"]

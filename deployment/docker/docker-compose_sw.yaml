@@ -5,8 +5,8 @@ services:
     image: enigmampc/secret-network-bootstrap-sw:latest
     container_name: bootstrap
     volumes:
-      - /tmp/secretd:/root/.secretd
-      - /tmp/secretcli:/root/.secretcli
+      - /tmp/ghmd:/root/.ghmd
+      - /tmp/ghmcli:/root/.ghmcli
     stdin_open: true
     tty: true
     environment:
@@ -21,8 +21,8 @@ services:
     depends_on:
       - bootstrap
     volumes:
-      - /tmp/secretd:/tmp/.secretd
-      - /tmp/secretcli:/root/.secretcli
+      - /tmp/ghmd:/tmp/.ghmd
+      - /tmp/ghmcli:/root/.ghmcli
     stdin_open: true
     tty: true
     environment:

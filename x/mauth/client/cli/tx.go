@@ -8,10 +8,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/pkg/errors"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/enigmampc/SecretNetwork/x/mauth/types"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

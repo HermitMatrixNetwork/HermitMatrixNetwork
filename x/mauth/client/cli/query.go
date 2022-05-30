@@ -1,9 +1,9 @@
 package cli
 
 import (
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/enigmampc/SecretNetwork/x/mauth/types"
 	"github.com/spf13/cobra"
 )
 

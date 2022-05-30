@@ -16,12 +16,12 @@ import (
 	sdkErrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
 
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 )
 
 func TestQueryContractLabel(t *testing.T) {
 	encoders := DefaultEncoders()
-	ctx, keepers := CreateTestInput(t, false,SupportedFeatures, &encoders, nil)
+	ctx, keepers := CreateTestInput(t, false, SupportedFeatures, &encoders, nil)
 	accKeeper, keeper := keepers.AccountKeeper, keepers.WasmKeeper
 
 	deposit := sdk.NewCoins(sdk.NewInt64Coin("denom", 100000))

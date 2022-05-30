@@ -9,14 +9,14 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/client/cli"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/keeper"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/enigmampc/SecretNetwork/x/mauth/client/cli"
-	"github.com/enigmampc/SecretNetwork/x/mauth/keeper"
-	"github.com/enigmampc/SecretNetwork/x/mauth/types"
 )
 
 var (

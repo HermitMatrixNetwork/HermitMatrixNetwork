@@ -1121,7 +1121,7 @@ static file_descriptor_proto_data: &'static [u8] = b"\
     \x19.cosmos.base.v1beta1.CoinR\tsentFundsB0\xaa\xdf\x1f(github.com/cosmo\
     s/cosmos-sdk/types.Coins\xc8\xde\x1f\0\x122\n\x0ccallback_sig\x18\x06\
     \x20\x01(\x0cR\x0bcallbackSigB\x0f\xe2\xde\x1f\x0bCallbackSig:\x04\x88\
-    \xa0\x1f\0B=Z;github.com/enigmampc/SecretNetwork/x/compute/internal/type\
+    \xa0\x1f\0B=Z;github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/type\
     sb\x06proto3\
 ";
 

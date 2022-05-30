@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	wasmTypes "github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	wasmTypes "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 	"github.com/cosmos/cosmos-sdk/store"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth"

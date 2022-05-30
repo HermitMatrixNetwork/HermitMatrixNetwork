@@ -1,4 +1,4 @@
-module github.com/enigmampc/SecretNetwork
+module github.com/HermitMatrixNetwork/HermitMatrixNetwork
 
 go 1.17
 

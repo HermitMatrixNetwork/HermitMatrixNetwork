@@ -5,12 +5,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/types"
+	ra "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/remote_attestation"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/auth/legacy/legacytx"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/types"
-	ra "github.com/enigmampc/SecretNetwork/x/registration/remote_attestation"
 	"path/filepath"
 )
 

@@ -1,6 +1,6 @@
 package mauth
 
-import "github.com/enigmampc/SecretNetwork/x/mauth/types"
+import "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/types"
 
 const (
 	ModuleName = types.ModuleName

@@ -20,8 +20,8 @@ import (
 	crypto "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	cosmwasm "github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	cosmwasm "github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 )
 
 type ContractEvent []cosmwasm.LogAttribute

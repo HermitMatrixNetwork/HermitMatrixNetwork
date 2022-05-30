@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/cosmos/go-bip39"
@@ -86,15 +85,15 @@ func InitCmd(mbm module.BasicManager, defaultNodeHome string) *cobra.Command {
 			}
 
 			// only for mainnet
-			if chainID == "secret-4" {
-				seeds := []string{
-					"6fb7169f7630da9468bf7cc0bcbbed1eb9ed0d7b@scrt-seed-01.scrtlabs.com:26656", // SCRT Labs 1
-					"ab6394e953e0b570bb1deeb5a8b387aa0dc6188a@scrt-seed-02.scrtlabs.com:26656", // SCRT Labs 2
-					"9cdaa5856e0245ecd73bd464308fb990fbc53b57@scrt-seed-03.scrtlabs.com:26656", // SCRT Labs 3
-				}
-				//Override default settings in config.toml
-				config.P2P.Seeds = strings.Join(seeds[:], ",")
-			}
+			//if chainID == "secret-4" {
+			//	seeds := []string{
+			//		"6fb7169f7630da9468bf7cc0bcbbed1eb9ed0d7b@scrt-seed-01.scrtlabs.com:26656", // SCRT Labs 1
+			//		"ab6394e953e0b570bb1deeb5a8b387aa0dc6188a@scrt-seed-02.scrtlabs.com:26656", // SCRT Labs 2
+			//		"9cdaa5856e0245ecd73bd464308fb990fbc53b57@scrt-seed-03.scrtlabs.com:26656", // SCRT Labs 3
+			//	}
+			//	//Override default settings in config.toml
+			//	config.P2P.Seeds = strings.Join(seeds[:], ",")
+			//}
 
 			config.P2P.MaxNumInboundPeers = 320
 			config.P2P.MaxNumOutboundPeers = 40

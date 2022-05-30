@@ -1,10 +1,10 @@
 package keeper
 
 import (
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/types"
+	ra "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/remote_attestation"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/types"
-	ra "github.com/enigmampc/SecretNetwork/x/registration/remote_attestation"
 )
 
 //func (k Keeper) MasterCertPrefix(ctx sdk.Context) *types.PublicKey {

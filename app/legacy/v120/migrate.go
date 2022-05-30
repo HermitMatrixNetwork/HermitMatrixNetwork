@@ -2,6 +2,8 @@ package legacy
 
 import (
 	"fmt"
+	v106registration "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/legacy/v106"
+	v120registration "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/legacy/v120"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/multisig"
@@ -34,13 +36,11 @@ import (
 	v038staking "github.com/cosmos/cosmos-sdk/x/staking/legacy/v038"
 	v040staking "github.com/cosmos/cosmos-sdk/x/staking/legacy/v040"
 	v038upgrade "github.com/cosmos/cosmos-sdk/x/upgrade/legacy/v038"
-	v106registration "github.com/enigmampc/SecretNetwork/x/registration/legacy/v106"
-	v120registration "github.com/enigmampc/SecretNetwork/x/registration/legacy/v120"
 
+	v106compute "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/legacy/v106"
+	v120compute "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/legacy/v120"
+	v106tokenswap "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/tokenswap/legacy/v106"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	v106compute "github.com/enigmampc/SecretNetwork/x/compute/legacy/v106"
-	v120compute "github.com/enigmampc/SecretNetwork/x/compute/legacy/v120"
-	v106tokenswap "github.com/enigmampc/SecretNetwork/x/tokenswap/legacy/v106"
 )
 
 func migrateGenutil(oldGenState v039genutil.GenesisState) *types.GenesisState {

@@ -132,11 +132,11 @@ jobs:
         shell: bash
         run: |
           make build_cli
-          cp "secretcli" "secretcli-$RUNNER_OS"
+          cp "ghmcli" "ghmcli-$RUNNER_OS"
       - uses: actions/upload-artifact@v2
         with:
-          name: secretcli-${{runner.os}}
-          path: secretcli-${{runner.os}}
+          name: ghmcli-${{runner.os}}
+          path: ghmcli-${{runner.os}}
 
   x-build-cli:
     runs-on: ubuntu-latest
@@ -153,11 +153,11 @@ jobs:
         shell: bash
         run: |
           make build_macos_arm64_cli
-          cp "secretcli-macos-arm64" "secretcli-MacOS-arm64"
+          cp "ghmcli-macos-arm64" "ghmcli-MacOS-arm64"
       - uses: actions/upload-artifact@v2
         with:
-          name: secretcli-MacOS-arm64
-          path: secretcli-MacOS-arm64
+          name: ghmcli-MacOS-arm64
+          path: ghmcli-MacOS-arm64
 
   publish-localsecret:
     runs-on: ubuntu-latest
@@ -202,16 +202,16 @@ jobs:
           echo "::set-output name=IS_PRE_RELEASE::$(echo "${{ steps.get_version.outputs.VERSION }}" | awk 'BEGIN{prerelease="false"} /beta|alpha/{prerelease="true"} END{print prerelease}')"
       - uses: actions/download-artifact@v2
         with:
-          name: secretcli-Linux
+          name: ghmcli-Linux
       - uses: actions/download-artifact@v2
         with:
-          name: secretcli-macOS
+          name: ghmcli-macOS
       - uses: actions/download-artifact@v2
         with:
-          name: secretcli-Windows
+          name: ghmcli-Windows
       - uses: actions/download-artifact@v2
         with:
-          name: secretcli-MacOS-arm64
+          name: ghmcli-MacOS-arm64
       - uses: actions/download-artifact@v2
         with:
           name: secretnetwork_${{ steps.get_version.outputs.VERSION }}_mainnet_goleveldb_amd64.deb
@@ -233,7 +233,7 @@ jobs:
             secretnetwork_${{ steps.get_version.outputs.VERSION }}_mainnet_rocksdb_amd64.deb
             secretnetwork_${{ steps.get_version.outputs.VERSION }}_testnet_goleveldb_amd64.deb
             secretnetwork_${{ steps.get_version.outputs.VERSION }}_testnet_rocksdb_amd64.deb
-            secretcli-macOS
-            secretcli-Windows
-            secretcli-Linux
-            secretcli-MacOS-arm64
+            ghmcli-macOS
+            ghmcli-Windows
+            ghmcli-Linux
+            ghmcli-MacOS-arm64

@@ -1,9 +1,9 @@
 package keeper
 
 import (
+	cosmwasm "github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	cosmwasm "github.com/enigmampc/SecretNetwork/go-cosmwasm"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
 )
 
 var (

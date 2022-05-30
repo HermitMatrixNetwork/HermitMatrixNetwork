@@ -1,7 +1,7 @@
 # Simple usage with a mounted data directory:
 # > docker build -t enigma .
-# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.secretd:/root/.secretd -v ~/.secretcli:/root/.secretcli enigma secretd init
-# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.secretd:/root/.secretd -v ~/.secretcli:/root/.secretcli enigma secretd start
+# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.ghmd:/root/.ghmd -v ~/.ghmcli:/root/.ghmcli enigma ghmd init
+# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.ghmd:/root/.ghmd -v ~/.ghmcli:/root/.ghmcli enigma ghmd start
 FROM enigmampc/rocksdb:v6.24.2 AS build-env-rust-go
 
 ENV PATH="/root/.cargo/bin:$PATH"
@@ -33,7 +33,7 @@ RUN apt-get update &&  \
 
 # rm -rf /tmp/rocksdb
 # Set working directory for the build
-WORKDIR /go/src/github.com/enigmampc/SecretNetwork/
+WORKDIR /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/
 
 ARG BUILD_VERSION="v0.0.0"
 ARG SGX_MODE=SW
@@ -54,27 +54,27 @@ COPY third_party/build third_party/build
 COPY go-cosmwasm go-cosmwasm/
 COPY cosmwasm cosmwasm/
 
-WORKDIR /go/src/github.com/enigmampc/SecretNetwork/
+WORKDIR /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/
 
 COPY deployment/docker/MakefileCopy Makefile
 
 # RUN make clean
 RUN make vendor
 
-WORKDIR /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm
+WORKDIR /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm
 
-COPY api_key.txt /go/src/github.com/enigmampc/SecretNetwork/ias_keys/develop/
-COPY spid.txt /go/src/github.com/enigmampc/SecretNetwork/ias_keys/develop/
-COPY api_key.txt /go/src/github.com/enigmampc/SecretNetwork/ias_keys/production/
-COPY spid.txt /go/src/github.com/enigmampc/SecretNetwork/ias_keys/production/
-COPY api_key.txt /go/src/github.com/enigmampc/SecretNetwork/ias_keys/sw_dummy/
-COPY spid.txt /go/src/github.com/enigmampc/SecretNetwork/ias_keys/sw_dummy/
+COPY api_key.txt /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ias_keys/develop/
+COPY spid.txt /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ias_keys/develop/
+COPY api_key.txt /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ias_keys/production/
+COPY spid.txt /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ias_keys/production/
+COPY api_key.txt /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ias_keys/sw_dummy/
+COPY spid.txt /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ias_keys/sw_dummy/
 
 RUN . /opt/sgxsdk/environment && env \
     && MITIGATION_CVE_2020_0551=LOAD VERSION=${VERSION} FEATURES=${FEATURES} FEATURES_U=${FEATURES_U} SGX_MODE=${SGX_MODE} make build-rust
 
 # Set working directory for the build
-WORKDIR /go/src/github.com/enigmampc/SecretNetwork
+WORKDIR /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork
 
 # Add source files
 COPY go-cosmwasm go-cosmwasm

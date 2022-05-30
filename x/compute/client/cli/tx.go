@@ -9,13 +9,13 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client/tx"
 
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/keeper"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/keeper"
 
+	wasmUtils "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/client/utils"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	wasmUtils "github.com/enigmampc/SecretNetwork/x/compute/client/utils"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
 )
@@ -164,7 +164,7 @@ func InstantiateContractCmd() *cobra.Command {
 
 	cmd.Flags().String(flagCodeHash, "", "For offline transactions, use this to specify the target contract's code hash")
 	cmd.Flags().String(flagIoMasterKey, "", "For offline transactions, use this to specify the path to the "+
-		"io-master-cert.der file, which you can get using the command `secretcli q register secret-network-params` ")
+		"io-master-cert.der file, which you can get using the command `ghmcli q register secret-network-params` ")
 	cmd.Flags().String(flagAmount, "", "Coins to send to the contract during instantiation")
 	cmd.Flags().String(flagLabel, "", "A human-readable name for this contract in lists")
 	// cmd.Flags().String(flagAdmin, "", "Address of an admin")
@@ -333,7 +333,7 @@ func ExecuteContractCmd() *cobra.Command {
 
 	cmd.Flags().String(flagCodeHash, "", "For offline transactions, use this to specify the target contract's code hash")
 	cmd.Flags().String(flagIoMasterKey, "", "For offline transactions, use this to specify the path to the "+
-		"io-master-cert.der file, which you can get using the command `secretcli q register secret-network-params` ")
+		"io-master-cert.der file, which you can get using the command `ghmcli q register secret-network-params` ")
 	cmd.Flags().String(flagAmount, "", "Coins to send to the contract along with command")
 	cmd.Flags().String(flagLabel, "", "A human-readable name for this contract in lists")
 	flags.AddTxFlagsToCmd(cmd)

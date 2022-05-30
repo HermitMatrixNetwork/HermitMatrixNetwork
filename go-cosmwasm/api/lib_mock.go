@@ -1,4 +1,5 @@
-// +build secretcli
+//go:build ghmcli
+// +build ghmcli
 
 package api
 
@@ -10,7 +11,7 @@ package api
 // import "C"
 import (
 	//"fmt"
-	"github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
 )
 
 // nice aliases to the rust names

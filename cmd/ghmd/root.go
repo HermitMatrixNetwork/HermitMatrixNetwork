@@ -8,21 +8,21 @@ import (
 	"path/filepath"
 	"strings"
 
+	scrt "github.com/HermitMatrixNetwork/HermitMatrixNetwork/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute"
 	"github.com/cosmos/cosmos-sdk/codec"
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	authcmd "github.com/cosmos/cosmos-sdk/x/auth/client/cli"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
-	scrt "github.com/enigmampc/SecretNetwork/types"
-	"github.com/enigmampc/SecretNetwork/x/compute"
 	"github.com/rs/zerolog"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
 	//"github.com/tendermint/tendermint/libs/cli"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/app"
 	"github.com/cosmos/cosmos-sdk/snapshots"
-	"github.com/enigmampc/SecretNetwork/app"
 
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
@@ -31,6 +31,7 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
 
+	secretlegacy "github.com/HermitMatrixNetwork/HermitMatrixNetwork/app/legacy"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	clientconfig "github.com/cosmos/cosmos-sdk/client/config"
@@ -45,7 +46,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
-	secretlegacy "github.com/enigmampc/SecretNetwork/app/legacy"
 )
 
 // thanks @terra-project for this fix
@@ -76,8 +76,8 @@ func NewRootCmd() (*cobra.Command, app.EncodingConfig) {
 	encodingConfig := app.MakeEncodingConfig()
 
 	config := sdk.GetConfig()
-	config.SetCoinType(scrt.CoinType)
-	config.SetPurpose(scrt.CoinPurpose)
+	//config.SetCoinType(scrt.CoinType)
+	//config.SetPurpose(scrt.CoinPurpose)
 	config.SetBech32PrefixForAccount(scrt.Bech32PrefixAccAddr, scrt.Bech32PrefixAccPub)
 	config.SetBech32PrefixForValidator(scrt.Bech32PrefixValAddr, scrt.Bech32PrefixValPub)
 	config.SetBech32PrefixForConsensusNode(scrt.Bech32PrefixConsAddr, scrt.Bech32PrefixConsPub)
@@ -93,10 +93,11 @@ func NewRootCmd() (*cobra.Command, app.EncodingConfig) {
 		WithAccountRetriever(types.AccountRetriever{}).
 		//WithBroadcastMode(flags.BroadcastBlock).
 		WithHomeDir(app.DefaultNodeHome).
-		WithViper("SECRET")
+		WithViper("")
+		//WithViper("SECRET")
 
 	rootCmd := &cobra.Command{
-		Use:   "secretd",
+		Use:   "ghmd",
 		Short: "The Secret Network App Daemon (server)",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			cmd.SetOut(cmd.OutOrStdout())

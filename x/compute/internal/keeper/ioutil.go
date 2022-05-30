@@ -3,7 +3,7 @@ package keeper
 import (
 	"bytes"
 	"compress/gzip"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
 	"io"
 	"io/ioutil"
 )

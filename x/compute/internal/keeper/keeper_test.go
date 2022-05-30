@@ -12,14 +12,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/api"
+	eng "github.com/HermitMatrixNetwork/HermitMatrixNetwork/types"
+	wasmUtils "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/client/utils"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/internal/types"
+	reg "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration"
 	stypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
-	"github.com/enigmampc/SecretNetwork/go-cosmwasm/api"
-	eng "github.com/enigmampc/SecretNetwork/types"
-	wasmUtils "github.com/enigmampc/SecretNetwork/x/compute/client/utils"
-	"github.com/enigmampc/SecretNetwork/x/compute/internal/types"
-	reg "github.com/enigmampc/SecretNetwork/x/registration"
 )
 
 const SupportedFeatures = "staking"
@@ -297,7 +297,7 @@ func TestInstantiate(t *testing.T) {
 	wasmCode, err := ioutil.ReadFile("./testdata/contract.wasm")
 	require.NoError(t, err)
 
-	contractID, err := keeper.Create(ctx, creator, wasmCode, "https://github.com/enigmampc/SecretNetwork/blob/master/cosmwasm/contracts/hackatom/src/contract.rs", "")
+	contractID, err := keeper.Create(ctx, creator, wasmCode, "https://github.com/HermitMatrixNetwork/HermitMatrixNetwork/blob/master/cosmwasm/contracts/hackatom/src/contract.rs", "")
 	require.NoError(t, err)
 
 	_, _, bob := keyPubAddr()

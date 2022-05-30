@@ -5,8 +5,8 @@ import (
 	icatypes "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/types"
 	ibctesting "github.com/cosmos/ibc-go/v3/testing"
 
-	"github.com/enigmampc/SecretNetwork/x/mauth/keeper"
-	"github.com/enigmampc/SecretNetwork/x/mauth/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/keeper"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/types"
 )
 
 func (suite *KeeperTestSuite) TestRegisterInterchainAccount() {

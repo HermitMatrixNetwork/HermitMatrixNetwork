@@ -1,4 +1,5 @@
-// +build !secretcli
+//go:build !ghmcli
+// +build !ghmcli
 
 package api
 
@@ -11,7 +12,7 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
 )
 
 // nice aliases to the rust names
@@ -89,7 +90,7 @@ func ReleaseCache(cache Cache) {
 func InitEnclaveRuntime(ModuleCacheSize uint8) error {
 	errmsg := C.Buffer{}
 
-	config := C.EnclaveRuntimeConfig {
+	config := C.EnclaveRuntimeConfig{
 		module_cache_size: u8(ModuleCacheSize),
 	}
 	_, err := C.configure_enclave_runtime(config, &errmsg)

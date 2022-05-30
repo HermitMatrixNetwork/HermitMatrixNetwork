@@ -6,11 +6,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute/client/cli"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/enigmampc/SecretNetwork/x/compute"
-	"github.com/enigmampc/SecretNetwork/x/compute/client/cli"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"strconv"
@@ -283,7 +283,7 @@ func s20TransferCmd() *cobra.Command {
 func s20CreatingViewingKey() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-viewing-key [contract address or label]",
-		Short: "Create a new viewing key. To view the resulting key, use 'secretcli q compute tx <TX_HASH>'",
+		Short: "Create a new viewing key. To view the resulting key, use 'ghmcli q compute tx <TX_HASH>'",
 		Long: `This allows a user to generate a key that enables off-chain queries. 
 This way you can perform balance and transaction history queries without waiting for a transaction on-chain.`,
 		Args: cobra.ExactArgs(1),

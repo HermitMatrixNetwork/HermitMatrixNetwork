@@ -1,9 +1,9 @@
 package types
 
 import (
+	ra "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/remote_attestation"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	ra "github.com/enigmampc/SecretNetwork/x/registration/remote_attestation"
 )
 
 const (

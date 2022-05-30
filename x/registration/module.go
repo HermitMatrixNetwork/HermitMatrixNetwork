@@ -3,11 +3,11 @@ package registration
 import (
 	"context"
 	"encoding/json"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/keeper"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/keeper"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/types"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"math/rand"
 
@@ -16,11 +16,11 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/client/cli"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/client/rest"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/enigmampc/SecretNetwork/x/registration/client/cli"
-	"github.com/enigmampc/SecretNetwork/x/registration/client/rest"
 )
 
 var (

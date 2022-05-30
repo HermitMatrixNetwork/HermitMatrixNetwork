@@ -3,10 +3,10 @@ package registration
 import (
 	"encoding/hex"
 	"fmt"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/types"
+	ra "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/remote_attestation"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/types"
-	ra "github.com/enigmampc/SecretNetwork/x/registration/remote_attestation"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 

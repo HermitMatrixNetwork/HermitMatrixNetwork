@@ -18,9 +18,9 @@ services:
       - /dev/sgx/provision
     volumes:
       - /tmp/aesmd:/var/run/aesmd
-      - /tmp/.secretd:/root/.secretd
-      - /tmp/.secretcli:/root/.secretcli
-      - /tmp/.sgx_secrets:/opt/secret/.sgx_secrets
+      - /tmp/.ghmd:/root/.ghmd
+      - /tmp/.ghmcli:/root/.ghmcli
+      - /tmp/.sgx_secrets:/opt/ghm/.sgx_ghms
     environment:
       - SGX_MODE=HW
       - MONIKER

@@ -45,23 +45,23 @@ RUN STORAGE_PATH=`echo ${VERSION} | sed -e 's/\.//g' | head -c 2` \
 
 # Copy over binaries from the build-env
 
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/target/release/libgo_cosmwasm.so /usr/lib/
-# COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/librust_cosmwasm_query_enclave.signed.so /usr/lib/
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/secretd /usr/bin/secretd
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/secretcli /usr/bin/secretcli
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/target/release/libgo_cosmwasm.so /usr/lib/
+# COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/librust_cosmwasm_query_enclave.signed.so /usr/lib/
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ghmd /usr/bin/ghmd
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ghmcli /usr/bin/ghmcli
 
 COPY deployment/docker/node/mainnet_node.sh .
 
-RUN chmod +x /usr/bin/secretd
+RUN chmod +x /usr/bin/ghmd
 RUN chmod +x mainnet_node.sh
 
-RUN secretd completion > /root/secretd_completion
+RUN ghmd completion > /root/ghmd_completion
 
-RUN echo 'source /root/secretd_completion' >> ~/.bashrc
+RUN echo 'source /root/ghmd_completion' >> ~/.bashrc
 
-RUN mkdir -p /root/.secretd/.compute/
-RUN mkdir -p /opt/secret/.sgx_secrets/
-RUN mkdir -p /root/.secretd/.node/
+RUN mkdir -p /root/.ghmd/.compute/
+RUN mkdir -p /opt/ghm/.sgx_ghms/
+RUN mkdir -p /root/.ghmd/.node/
 RUN mkdir -p /root/config/
 
 
@@ -70,5 +70,5 @@ RUN mkdir -p /root/config/
 
 #ENV LD_LIBRARY_PATH=/opt/sgxsdk/libsgx-enclave-common/:/opt/sgxsdk/lib64/
 
-# Run secretd by default, omit entrypoint to ease using container with secretcli
+# Run ghmd by default, omit entrypoint to ease using container with ghmcli
 ENTRYPOINT ["/bin/bash", "mainnet_node.sh"]

@@ -5,6 +5,9 @@ import (
 
 	store "github.com/cosmos/cosmos-sdk/store/types"
 
+	v1_3 "github.com/HermitMatrixNetwork/HermitMatrixNetwork/app/upgrades/v1.3"
+	icaauth "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth"
+	icaauthtypes "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/grpc/tmservice"
@@ -33,10 +36,8 @@ import (
 	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
 	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
 	ibckeeper "github.com/cosmos/ibc-go/v3/modules/core/keeper"
-	v1_3 "github.com/enigmampc/SecretNetwork/app/upgrades/v1.3"
-	icaauth "github.com/enigmampc/SecretNetwork/x/mauth"
-	icaauthtypes "github.com/enigmampc/SecretNetwork/x/mauth/types"
 
+	icaauthkeeper "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/mauth/keeper"
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
@@ -49,8 +50,9 @@ import (
 	authzmodule "github.com/cosmos/cosmos-sdk/x/authz/module"
 	icacontrollerkeeper "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/controller/keeper"
 	icahostkeeper "github.com/cosmos/ibc-go/v3/modules/apps/27-interchain-accounts/host/keeper"
-	icaauthkeeper "github.com/enigmampc/SecretNetwork/x/mauth/keeper"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute"
+	reg "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration"
 	"github.com/cosmos/cosmos-sdk/x/bank"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -90,8 +92,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/upgrade"
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	"github.com/enigmampc/SecretNetwork/x/compute"
-	reg "github.com/enigmampc/SecretNetwork/x/registration"
 	"github.com/spf13/cast"
 
 	"io"
@@ -108,18 +108,18 @@ import (
 	dbm "github.com/tendermint/tm-db"
 
 	// unnamed import of statik for swagger UI support
-	_ "github.com/enigmampc/SecretNetwork/client/docs/statik"
+	_ "github.com/HermitMatrixNetwork/HermitMatrixNetwork/client/docs/statik"
 )
 
-const appName = "secret"
+const appName = "HermitMatrixNetwork"
 
 var (
 	// DefaultCLIHome default home directories for the application CLI
 	homeDir, _     = os.UserHomeDir()
-	DefaultCLIHome = filepath.Join(homeDir, ".secretd")
+	DefaultCLIHome = filepath.Join(homeDir, ".ghmd")
 
 	// DefaultNodeHome sets the folder where the applcation data and configuration will be stored
-	DefaultNodeHome = filepath.Join(homeDir, ".secretd")
+	DefaultNodeHome = filepath.Join(homeDir, ".ghmd")
 
 	// module account permissions
 	maccPerms = map[string][]string{

@@ -20,8 +20,8 @@ import (
 	"google.golang.org/grpc/encoding"
 	"google.golang.org/grpc/encoding/proto"
 
-	regtypes "github.com/enigmampc/SecretNetwork/x/registration"
-	ra "github.com/enigmampc/SecretNetwork/x/registration/remote_attestation"
+	regtypes "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration"
+	ra "github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/remote_attestation"
 
 	"github.com/miscreant/miscreant.go"
 	"golang.org/x/crypto/curve25519"

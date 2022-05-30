@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euv
 
-export SCRT_SGX_STORAGE=/opt/secret/.sgx_secrets
+export GHM_SGX_STORAGE=/opt/ghm/.sgx_ghms
 export SCRT_ENCLAVE_DIR=/usr/lib
 
 FORCE_REGISTER=${FORCE_REGISTER:-}
@@ -13,31 +13,31 @@ REGISTRATION_SERVICE="${REGISTRATION_SERVICE:-https://mainnet-register.scrtlabs.
 STATE_SYNC1="${STATE_SYNC1:-http://peer.node.scrtlabs.com:26657}"
 STATE_SYNC2="${STATE_SYNC2:-${STATE_SYNC1:-http://peer.node.scrtlabs.com:26657}}"
 
-file=/opt/secret/.sgx_secrets/consensus_seed.sealed
+file=/opt/ghm/.sgx_ghms/consensus_seed.sealed
 if [ ! -z "$FORCE_REGISTER" ] || [ ! -e "$file" ];
 then
-  secretd auto-register --reset --registration-service $REGISTRATION_SERVICE
+  ghmd auto-register --reset --registration-service $REGISTRATION_SERVICE
 fi
 
-file=/root/.secretd/data/blockstore.db/MANIFEST-000000
+file=/root/.ghmd/data/blockstore.db/MANIFEST-000000
 if [ ! -z "$FORCE_SYNC" ] || [ ! -e "$file" ];
 then
 
   echo "Resetting or initializing node"
 
-  rm -rf /root/.secretd/* || true
+  rm -rf /root/.ghmd/* || true
 
-  mkdir -p /root/.secretd/.node
-  secretd config chain-id "$CHAINID"
+  mkdir -p /root/.ghmd/.node
+  ghmd config chain-id "$CHAINID"
 
-  secretd init "$MONIKER" --chain-id "$CHAINID"
+  ghmd init "$MONIKER" --chain-id "$CHAINID"
 
   echo "Initialized chain: $CHAINID with node moniker: $MONIKER"
 
-  cp /root/genesis.json /root/.secretd/config/genesis.json
+  cp /root/genesis.json /root/.ghmd/config/genesis.json
 
   # Open RPC port to all interfaces
-  perl -i -pe 's/laddr = .+?26657"/laddr = "tcp:\/\/0.0.0.0:26657"/' /root/.secretd/config/config.toml
+  perl -i -pe 's/laddr = .+?26657"/laddr = "tcp:\/\/0.0.0.0:26657"/' /root/.ghmd/config/config.toml
 
   if [ ! -z "$STATE_SYNC1" ] && [ ! -z "$STATE_SYNC2" ];
   then
@@ -52,14 +52,14 @@ then
     echo "Trust hash: $TRUST_HASH; Block height: $BLOCK_HEIGHT"
 
     # enable state sync (this is the only line in the config that uses enable = false. This could change and break everything
-    perl -i -pe 's/enable = false/enable = true/' ~/.secretd/config/config.toml
+    perl -i -pe 's/enable = false/enable = true/' ~/.ghmd/config/config.toml
 
     sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
     s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$STATE_SYNC1,$STATE_SYNC2\"| ; \
     s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
-    s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.secretd/config/config.toml
+    s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.ghmd/config/config.toml
   else
     echo "Syncing with block sync"
   fi
 fi
-secretd start
+ghmd start

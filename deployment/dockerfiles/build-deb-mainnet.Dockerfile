@@ -28,13 +28,13 @@ COPY Makefile .
 COPY --from=build-env-rust-go /usr/lib/libgo_cosmwasm.so ./go-cosmwasm/api/
 COPY --from=build-env-rust-go /usr/lib/librust_cosmwasm_enclave.signed.so ./go-cosmwasm/
 COPY --from=build-env-rust-go /usr/lib/librust_cosmwasm_query_enclave.signed.so ./go-cosmwasm/
-COPY --from=build-env-rust-go /usr/bin/secretd secretd
-COPY --from=build-env-rust-go /usr/bin/secretcli secretcli
+COPY --from=build-env-rust-go /usr/bin/ghmd ghmd
+COPY --from=build-env-rust-go /usr/bin/ghmcli ghmcli
 
 COPY ./deployment/deb ./deployment/deb
 COPY ./deployment/docker/builder/build_deb.sh .
 
 RUN chmod +x build_deb.sh
 
-# Run secretd by default, omit entrypoint to ease using container with secretcli
+# Run ghmd by default, omit entrypoint to ease using container with ghmcli
 CMD ["/bin/bash", "build_deb.sh"]

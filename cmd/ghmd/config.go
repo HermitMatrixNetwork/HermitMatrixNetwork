@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute"
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
-	"github.com/enigmampc/SecretNetwork/x/compute"
 )
 
 // SecretAppConfig terra specify app config
@@ -31,7 +31,7 @@ func initAppConfig() (string, interface{}) {
 	//   own app.toml to override, or use this default value.
 	//
 	// In simapp, we set the min gas prices to 0.
-	srvCfg.MinGasPrices = "0.0125uscrt"
+	srvCfg.MinGasPrices = "0.0125uGHM"
 	srvCfg.API.Enable = true
 	srvCfg.API.Swagger = true
 	srvCfg.API.EnableUnsafeCORS = true

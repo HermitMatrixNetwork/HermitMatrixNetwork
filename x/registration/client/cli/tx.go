@@ -1,10 +1,10 @@
 package cli
 
 import (
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/types"
 	"github.com/spf13/cobra"
 	"io/ioutil"
 )

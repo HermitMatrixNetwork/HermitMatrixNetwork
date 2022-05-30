@@ -1,7 +1,7 @@
 package enclave
 
 import (
-	"github.com/enigmampc/SecretNetwork/go-cosmwasm/api"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/api"
 )
 
 type Api struct{}

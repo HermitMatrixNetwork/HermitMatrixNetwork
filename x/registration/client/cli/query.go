@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/keeper"
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/keeper"
 	flag "github.com/spf13/pflag"
 
 	"github.com/spf13/cobra"
 
+	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/registration/internal/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/enigmampc/SecretNetwork/x/registration/internal/types"
 )
 
 func GetQueryCmd() *cobra.Command {

@@ -24,10 +24,10 @@ CORS(application)
 
 node_url = os.getenv("RPC_URL", 'localhost:26657')
 
-chain_id = os.getenv("CHAIN_ID", 'secretdev-1')
+chain_id = os.getenv("CHAIN_ID", 'ghmdev-1')
 
 def get_address(key_name: str) -> str:
-    p = subprocess.check_output(['secretd', 'keys', 'list'])
+    p = subprocess.check_output(['ghmd', 'keys', 'list'])
     print(f'{p}')
     res = ''
     for key in filter(lambda x: x['name'] == key_name, json.loads(p.decode())):
@@ -39,7 +39,7 @@ def get_address(key_name: str) -> str:
 
 
 def send_command(src: str, dest: str, amount: str) -> str:
-    exec = ['secretd', 'tx', 'bank', 'send' ]
+    exec = ['ghmd', 'tx', 'bank', 'send' ]
 
     address = get_address(src)
 

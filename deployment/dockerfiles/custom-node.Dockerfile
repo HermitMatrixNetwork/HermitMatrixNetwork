@@ -35,31 +35,31 @@ WORKDIR /root
 # Copy over binaries from the local directory
 COPY ./go-cosmwasm/api/libgo_cosmwasm.so.x /usr/lib/libgo_cosmwasm.so
 COPY ./cosmwasm/enclaves/execute/librust_cosmwasm_enclave.signed.so.x /usr/lib/librust_cosmwasm_enclave.signed.so
-COPY ./secretd /usr/bin/secretd
-COPY ./secretcli /usr/bin/secretcli
+COPY ./ghmd /usr/bin/ghmd
+COPY ./ghmcli /usr/bin/ghmcli
 
 COPY deployment/docker/local/bootstrap_init.sh .
 COPY deployment/docker/local/node_init.sh .
 COPY deployment/docker/startup.sh .
 COPY deployment/docker/node_key.json .
 
-RUN chmod +x /usr/bin/secretd
+RUN chmod +x /usr/bin/ghmd
 RUN chmod +x bootstrap_init.sh
 RUN chmod +x node_init.sh
 RUN chmod +x startup.sh
 
 # Enable autocomplete
-RUN secretcli completion > /root/secretcli_completion
-RUN secretd completion > /root/secretd_completion
+RUN ghmcli completion > /root/ghmcli_completion
+RUN ghmd completion > /root/ghmd_completion
 
-RUN echo 'source /root/secretd_completion' >> ~/.bashrc
-RUN echo 'source /root/secretcli_completion' >> ~/.bashrc
+RUN echo 'source /root/ghmd_completion' >> ~/.bashrc
+RUN echo 'source /root/ghmcli_completion' >> ~/.bashrc
 
-RUN mkdir -p /root/.secretd/.compute/
+RUN mkdir -p /root/.ghmd/.compute/
 RUN mkdir -p /root/.sgx_secrets/
-RUN mkdir -p /root/.secretd/.node/
+RUN mkdir -p /root/.ghmd/.node/
 
-#COPY deployment/docker/bootstrap/config.toml /root/.secretd/config/config-cli.toml
+#COPY deployment/docker/bootstrap/config.toml /root/.ghmd/config/config-cli.toml
 #
 #COPY x/compute/internal/keeper/testdata/erc20.wasm /root/erc20.wasm
 #COPY deployment/docker/sanity-test.sh /root/
@@ -79,5 +79,5 @@ ENV PERSISTENT_PEERS="${PERSISTENT_PEERS}"
 
 #ENV LD_LIBRARY_PATH=/opt/sgxsdk/libsgx-enclave-common/:/opt/sgxsdk/lib64/
 
-# Run secretd by default, omit entrypoint to ease using container with secretcli
+# Run ghmd by default, omit entrypoint to ease using container with ghmcli
 ENTRYPOINT ["/bin/bash", "startup.sh"]

@@ -59,15 +59,15 @@ fi
 
 
 # replace the tmp paths with home directory ones
-sudo sed -i 's/\/tmp\/.secretd:/\/home\/'$1'\/.secretd:/g' /usr/local/bin/secret-node/docker-compose.yaml
-sudo sed -i 's/\/tmp\/.secretcli:/\/home\/'$1'\/.secretcli:/g' /usr/local/bin/secret-node/docker-compose.yaml
+sudo sed -i 's/\/tmp\/.ghmd:/\/home\/'$1'\/.ghmd:/g' /usr/local/bin/secret-node/docker-compose.yaml
+sudo sed -i 's/\/tmp\/.ghmcli:/\/home\/'$1'\/.ghmcli:/g' /usr/local/bin/secret-node/docker-compose.yaml
 sudo sed -i 's/\/tmp\/.sgx_secrets:/\/home\/'$1'\/.sgx_secrets:/g' /usr/local/bin/secret-node/docker-compose.yaml
 
 # Open RPC port to the public
-perl -i -pe 's/laddr = .+?26657"/laddr = "tcp:\/\/0.0.0.0:26657"/' ~/.secretd/config/config.toml
+perl -i -pe 's/laddr = .+?26657"/laddr = "tcp:\/\/0.0.0.0:26657"/' ~/.ghmd/config/config.toml
 
 # Open P2P port to the outside
-perl -i -pe 's/laddr = .+?26656"/laddr = "tcp:\/\/0.0.0.0:26656"/' ~/.secretd/config/config.toml
+perl -i -pe 's/laddr = .+?26656"/laddr = "tcp:\/\/0.0.0.0:26656"/' ~/.ghmd/config/config.toml
 
 echo "Setting Secret Node environment variables and aliases" >> /home/"$1"/install.progress.txt
 
@@ -79,10 +79,10 @@ export REGISTRATION_SERVICE=$6
 
 # set Aliases and environment variables
 {
-  echo 'alias secretcli="docker exec -it secret-node_node_1 secretcli"'
-  echo 'alias secretd="docker exec -it secret-node_node_1 secretd"'
-  echo 'alias show-node-id="docker exec -it secret-node_node_1 secretd tendermint show-node-id"'
-  echo 'alias show-validator="docker exec -it secret-node_node_1 secretd tendermint show-validator"'
+  echo 'alias ghmcli="docker exec -it secret-node_node_1 ghmcli"'
+  echo 'alias ghmd="docker exec -it secret-node_node_1 ghmd"'
+  echo 'alias show-node-id="docker exec -it secret-node_node_1 ghmd tendermint show-node-id"'
+  echo 'alias show-validator="docker exec -it secret-node_node_1 ghmd tendermint show-validator"'
   echo 'alias stop-secret-node="docker-compose -f /usr/local/bin/secret-node/docker-compose.yaml down"'
   echo 'alias start-secret-node="docker-compose -f /usr/local/bin/secret-node/docker-compose.yaml up -d"'
   echo "export CHAINID=$2"
@@ -137,13 +137,13 @@ fi
 
 docker-compose -f /usr/local/bin/secret-node/docker-compose.yaml up -d
 
-secretcli completion > /root/secretcli_completion
-secretd completion > /root/secretd_completion
+ghmcli completion > /root/ghmcli_completion
+ghmd completion > /root/ghmd_completion
 
-docker cp secret-node_node_1:/root/secretcli_completion /home/"$1"/secretcli_completion
-docker cp secret-node_node_1:/root/secretd_completion /home/"$1"/secretd_completion
+docker cp secret-node_node_1:/root/ghmcli_completion /home/"$1"/ghmcli_completion
+docker cp secret-node_node_1:/root/ghmd_completion /home/"$1"/ghmd_completion
 
-echo 'source /home/'$1'/secretd_completion' >> /home/"$1"/.bashrc
-echo 'source /home/'$1'/secretcli_completion' >> /home/"$1"/.bashrc
+echo 'source /home/'$1'/ghmd_completion' >> /home/"$1"/.bashrc
+echo 'source /home/'$1'/ghmcli_completion' >> /home/"$1"/.bashrc
 
 echo "Secret Node has been setup successfully and is running..." >> /home/"$1"/install.progress.txt

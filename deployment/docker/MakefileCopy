@@ -87,8 +87,8 @@ comma := ,
 build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=SecretNetwork \
-	-X github.com/cosmos/cosmos-sdk/version.AppName=secretd \
-	-X github.com/enigmampc/SecretNetwork/cmd/secretcli/version.ClientName=secretcli \
+	-X github.com/cosmos/cosmos-sdk/version.AppName=ghmd \
+	-X github.com/HermitMatrixNetwork/HermitMatrixNetwork/cmd/ghmcli/version.ClientName=ghmcli \
 	-X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 	-X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 	-X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags)"
@@ -114,33 +114,33 @@ go.sum: go.mod
 	GO111MODULE=on go mod verify
 
 build_cli:
-	go build -o secretcli -mod=readonly -tags "$(GO_TAGS) secretcli" -ldflags '$(LD_FLAGS)' ./cmd/secretd
+	go build -o ghmcli -mod=readonly -tags "$(GO_TAGS) ghmcli" -ldflags '$(LD_FLAGS)' ./cmd/ghmd
 
-xgo_build_secretcli: go.sum
+xgo_build_ghmcli: go.sum
 	@echo "--> WARNING! This builds from origin/$(CURRENT_BRANCH)!"
-	xgo --image techknowlogick/xgo:go-1.15.15 --targets $(XGO_TARGET) -tags="$(GO_TAGS) secretcli" -ldflags '$(LD_FLAGS)' --branch "$(CURRENT_BRANCH)" github.com/enigmampc/SecretNetwork/cmd/secretd
+	xgo --image techknowlogick/xgo:go-1.15.15 --targets $(XGO_TARGET) -tags="$(GO_TAGS) ghmcli" -ldflags '$(LD_FLAGS)' --branch "$(CURRENT_BRANCH)" github.com/HermitMatrixNetwork/HermitMatrixNetwork/cmd/ghmd
 
 build_local_no_rust: bin-data-$(IAS_BUILD)
 	cp go-cosmwasm/target/release/libgo_cosmwasm.so go-cosmwasm/api
-	go build -mod=readonly -tags "$(GO_TAGS)" -ldflags '$(LD_FLAGS)' ./cmd/secretd
+	go build -mod=readonly -tags "$(GO_TAGS)" -ldflags '$(LD_FLAGS)' ./cmd/ghmd
 
 build-linux: vendor bin-data-$(IAS_BUILD)
 	BUILD_PROFILE=$(BUILD_PROFILE) $(MAKE) -C go-cosmwasm build-rust
 	cp go-cosmwasm/target/$(BUILD_PROFILE)/libgo_cosmwasm.so go-cosmwasm/api
 #   this pulls out ELF symbols, 80% size reduction!
-	go build -mod=readonly -tags "$(GO_TAGS)" -ldflags '$(LD_FLAGS)' ./cmd/secretd
+	go build -mod=readonly -tags "$(GO_TAGS)" -ldflags '$(LD_FLAGS)' ./cmd/ghmd
 
 build_windows_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=windows/amd64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=windows/amd64
 
 build_macos_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=darwin/amd64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=darwin/amd64
 
 build_linux_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=linux/amd64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=linux/amd64
 
 build_linux_arm64_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=linux/arm64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=linux/arm64
 
 build_all: build-linux build_windows_cli build_macos_cli build_linux_arm64_cli
 
@@ -153,9 +153,9 @@ deb-no-compile:
 	rm -rf /tmp/SecretNetwork
 
 	mkdir -p /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)
-	mv -f ./secretcli /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretcli
-	mv -f ./secretd /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretd
-	chmod +x /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretd /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretcli
+	mv -f ./ghmcli /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/ghmcli
+	mv -f ./ghmd /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/ghmd
+	chmod +x /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/ghmd /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/ghmcli
 
 	mkdir -p /tmp/SecretNetwork/deb/$(DEB_LIB_DIR)
 	cp -f ./go-cosmwasm/api/libgo_cosmwasm.so ./go-cosmwasm/librust_cosmwasm_enclave.signed.so /tmp/SecretNetwork/deb/$(DEB_LIB_DIR)/
@@ -181,7 +181,7 @@ rename_for_release:
 
 sign_for_release: rename_for_release
 	sha256sum enigma-blockchain*.deb > SHA256SUMS
-	-sha256sum secretd-* secretcli-* >> SHA256SUMS
+	-sha256sum ghmd-* ghmcli-* >> SHA256SUMS
 	gpg -u 91831DE812C6415123AFAA7B420BF1CB005FBCE6 --digest-algo sha256 --clearsign --yes SHA256SUMS
 	rm -f SHA256SUMS
 
@@ -189,14 +189,14 @@ release: sign_for_release
 	rm -rf ./release/
 	mkdir -p ./release/
 	cp enigma-blockchain_*.deb ./release/
-	cp secretcli-* ./release/
-	cp secretd-* ./release/
+	cp ghmcli-* ./release/
+	cp ghmd-* ./release/
 	cp SHA256SUMS.asc ./release/
 
 clean:
 	-rm -rf /tmp/SecretNetwork
-	-rm -f ./secretcli*
-	-rm -f ./secretd*
+	-rm -f ./ghmcli*
+	-rm -f ./ghmd*
 #	-find -name librust_cosmwasm_enclave.signed.so -delete
 #	-find -name libgo_cosmwasm.so -delete
 #	-find -name '*.so' -delete
@@ -208,7 +208,7 @@ clean:
 	-rm -rf ./x/compute/internal/keeper/.sgx_secrets/*
 	-rm -rf ./*.der
 	-rm -rf ./x/compute/internal/keeper/*.der
-	-rm -rf ./cmd/secretd/ias_bin*
+	-rm -rf ./cmd/ghmd/ias_bin*
 	$(MAKE) -C go-cosmwasm clean-all
 	$(MAKE) -C cosmwasm/packages/wasmi-runtime clean
 
@@ -341,13 +341,13 @@ build-all-test-contracts: build-test-contract
 bin-data: bin-data-sw bin-data-develop bin-data-production
 
 bin-data-sw:
-	cd ./cmd/secretd && go-bindata -o ias_bin_sw.go -prefix "../../ias_keys/sw_dummy/" -tags "!hw" ../../ias_keys/sw_dummy/...
+	cd ./cmd/ghmd && go-bindata -o ias_bin_sw.go -prefix "../../ias_keys/sw_dummy/" -tags "!hw" ../../ias_keys/sw_dummy/...
 
 bin-data-develop:
-	cd ./cmd/secretd && go-bindata -o ias_bin_dev.go -prefix "../../ias_keys/develop/" -tags "develop,hw" ../../ias_keys/develop/...
+	cd ./cmd/ghmd && go-bindata -o ias_bin_dev.go -prefix "../../ias_keys/develop/" -tags "develop,hw" ../../ias_keys/develop/...
 
 bin-data-production:
-	cd ./cmd/secretd && go-bindata -o ias_bin_prod.go -prefix "../../ias_keys/production/" -tags "production,hw" ../../ias_keys/production/...
+	cd ./cmd/ghmd && go-bindata -o ias_bin_prod.go -prefix "../../ias_keys/production/" -tags "production,hw" ../../ias_keys/production/...
 
 secret-contract-optimizer:
 	docker build -f deployment/dockerfiles/secret-contract-optimizer.Dockerfile -t enigmampc/secret-contract-optimizer:${TAG} .

@@ -25,16 +25,16 @@ RUN mkdir -p ./go-cosmwasm/api/
 COPY Makefile .
 
 # Copy over binaries from the build-env
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/target/release/libgo_cosmwasm.so ./go-cosmwasm/api/
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/librust_cosmwasm_enclave.signed.so ./go-cosmwasm/
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/go-cosmwasm/librust_cosmwasm_query_enclave.signed.so ./go-cosmwasm/
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/secretd secretd
-COPY --from=build-env-rust-go /go/src/github.com/enigmampc/SecretNetwork/secretcli secretcli
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/target/release/libgo_cosmwasm.so ./go-cosmwasm/api/
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/librust_cosmwasm_enclave.signed.so ./go-cosmwasm/
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/librust_cosmwasm_query_enclave.signed.so ./go-cosmwasm/
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ghmd ghmd
+COPY --from=build-env-rust-go /go/src/github.com/HermitMatrixNetwork/HermitMatrixNetwork/ghmcli ghmcli
 
 COPY ./deployment/deb ./deployment/deb
 COPY ./deployment/docker/builder/build_deb.sh .
 
 RUN chmod +x build_deb.sh
 
-# Run secretd by default, omit entrypoint to ease using container with secretcli
+# Run ghmd by default, omit entrypoint to ease using container with ghmcli
 CMD ["/bin/bash", "build_deb.sh"]

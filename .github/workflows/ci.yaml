@@ -122,8 +122,8 @@ jobs:
           path: erc20.wasm
       - uses: actions/upload-artifact@v2
         with:
-          name: secretd
-          path: secretd
+          name: ghmd
+          path: ghmd
       - uses: actions/upload-artifact@v2
         with:
           name: contract.wasm
@@ -201,7 +201,7 @@ jobs:
           export SGX_MODE=SW
           cp librust_cosmwasm_enclave.signed.so ./x/compute/internal/keeper
           mkdir -p ias_keys/develop
-          mkdir -p /opt/secret/.sgx_secrets/
+          mkdir -p /opt/ghm/.sgx_ghms/
           echo "not_a_key" > ias_keys/develop/spid.txt
           echo "not_a_key" > ias_keys/develop/api_key.txt
           LOG_LEVEL=ERROR go test -v ./x/compute/client/...

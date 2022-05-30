@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	wasm "github.com/enigmampc/SecretNetwork/go-cosmwasm"
+	wasm "github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm"
 )
 
 // This is just a demo to ensure we can compile a static go binary
@@ -20,7 +20,7 @@ func main() {
 
 	os.MkdirAll("tmp", 0755)
 	wasmer, err := wasm.NewWasmer("tmp", "staking", 0, 15)
-  
+
 	if err != nil {
 		panic(err)
 	}

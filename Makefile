@@ -93,9 +93,9 @@ whitespace += $(whitespace)
 comma := ,
 build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=SecretNetwork \
-	-X github.com/cosmos/cosmos-sdk/version.AppName=secretd \
-	-X github.com/enigmampc/SecretNetwork/cmd/secretcli/version.ClientName=secretcli \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=HermitMatrixNetwork \
+	-X github.com/cosmos/cosmos-sdk/version.AppName=ghmd \
+	-X github.com/HermitMatrixNetwork/HermitMatrixNetwork/cmd/ghmcli/version.ClientName=ghmcli \
 	-X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 	-X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 	-X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags)"
@@ -130,14 +130,14 @@ go.sum: go.mod
 	GO111MODULE=on go mod verify
 
 build_cli:
-	go build -o secretcli -mod=readonly -tags "$(GO_TAGS) secretcli" -ldflags '$(LD_FLAGS)' ./cmd/secretd
+	go build -o ghmcli -mod=readonly -tags "$(GO_TAGS) ghmcli" -ldflags '$(LD_FLAGS)' ./cmd/ghmd
 
-xgo_build_secretcli: go.sum
+xgo_build_ghmcli: go.sum
 	@echo "--> WARNING! This builds from origin/$(CURRENT_BRANCH)!"
-	xgo --targets $(XGO_TARGET) -tags="$(GO_TAGS) secretcli" -ldflags '$(LD_FLAGS)' --branch $(CURRENT_BRANCH) github.com/enigmampc/SecretNetwork/cmd/secretd
+	xgo --targets $(XGO_TARGET) -tags="$(GO_TAGS) ghmcli" -ldflags '$(LD_FLAGS)' --branch $(CURRENT_BRANCH) github.com/HermitMatrixNetwork/HermitMatrixNetwork/cmd/ghmd
 build_local_no_rust: bin-data-$(IAS_BUILD)
 	cp go-cosmwasm/target/$(BUILD_PROFILE)/libgo_cosmwasm.so go-cosmwasm/api
-	go build -mod=readonly -tags "$(GO_TAGS)" -ldflags '$(LD_FLAGS)' ./cmd/secretd
+	go build -mod=readonly -tags "$(GO_TAGS)" -ldflags '$(LD_FLAGS)' ./cmd/ghmd
 
 build-linux: _build-linux build_local_no_rust build_cli
 _build-linux: vendor
@@ -148,24 +148,24 @@ _build-linux-with-query: vendor
 	BUILD_PROFILE=$(BUILD_PROFILE) FEATURES=$(FEATURES) FEATURES_U=query-node,$(FEATURES_U) $(MAKE) -C go-cosmwasm build-rust
 
 build_windows_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=windows/amd64
-	mv secretd-windows-* secretcli-windows-amd64.exe
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=windows/amd64
+	mv ghmd-windows-* ghmcli-windows-amd64.exe
 
 build_macos_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=darwin/amd64
-	mv secretd-darwin-* secretcli-macos-amd64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=darwin/amd64
+	mv ghmd-darwin-* ghmcli-macos-amd64
 
 build_macos_arm64_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=darwin/arm64
-	mv secretd-darwin-* secretcli-macos-arm64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=darwin/arm64
+	mv ghmd-darwin-* ghmcli-macos-arm64
 
 build_linux_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=linux/amd64
-	mv secretd-linux-amd64 secretcli-linux-amd64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=linux/amd64
+	mv ghmd-linux-amd64 ghmcli-linux-amd64
 
 build_linux_arm64_cli:
-	$(MAKE) xgo_build_secretcli XGO_TARGET=linux/arm64
-	mv secretd-linux-arm64 secretcli-linux-arm64
+	$(MAKE) xgo_build_ghmcli XGO_TARGET=linux/arm64
+	mv ghmd-linux-arm64 ghmcli-linux-arm64
 
 build_all: build-linux build_windows_cli build_macos_cli build_linux_arm64_cli
 
@@ -175,35 +175,35 @@ deb-no-compile:
     ifneq ($(UNAME_S),Linux)
 		exit 1
     endif
-	rm -rf /tmp/SecretNetwork
+	rm -rf /tmp/HermitMatrixNetwork
 
-	mkdir -p /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)
-	cp -f ./secretcli /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretcli
-	cp -f ./secretd /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretd
-	chmod +x /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretd /tmp/SecretNetwork/deb/$(DEB_BIN_DIR)/secretcli
+	mkdir -p /tmp/HermitMatrixNetwork/deb/$(DEB_BIN_DIR)
+	cp -f ./ghmcli /tmp/HermitMatrixNetwork/deb/$(DEB_BIN_DIR)/ghmcli
+	cp -f ./ghmd /tmp/HermitMatrixNetwork/deb/$(DEB_BIN_DIR)/ghmd
+	chmod +x /tmp/HermitMatrixNetwork/deb/$(DEB_BIN_DIR)/ghmd /tmp/HermitMatrixNetwork/deb/$(DEB_BIN_DIR)/ghmcli
 
-	mkdir -p /tmp/SecretNetwork/deb/$(DEB_LIB_DIR)
-	cp -f ./go-cosmwasm/api/libgo_cosmwasm.so ./go-cosmwasm/librust_cosmwasm_enclave.signed.so ./go-cosmwasm/librust_cosmwasm_query_enclave.signed.so /tmp/SecretNetwork/deb/$(DEB_LIB_DIR)/
-	chmod +x /tmp/SecretNetwork/deb/$(DEB_LIB_DIR)/lib*.so
+	mkdir -p /tmp/HermitMatrixNetwork/deb/$(DEB_LIB_DIR)
+	cp -f ./go-cosmwasm/api/libgo_cosmwasm.so ./go-cosmwasm/librust_cosmwasm_enclave.signed.so ./go-cosmwasm/librust_cosmwasm_query_enclave.signed.so /tmp/HermitMatrixNetwork/deb/$(DEB_LIB_DIR)/
+	chmod +x /tmp/HermitMatrixNetwork/deb/$(DEB_LIB_DIR)/lib*.so
 
-	mkdir -p /tmp/SecretNetwork/deb/DEBIAN
-	cp ./deployment/deb/control /tmp/SecretNetwork/deb/DEBIAN/control
-	printf "Version: " >> /tmp/SecretNetwork/deb/DEBIAN/control
-	printf "$(VERSION)" >> /tmp/SecretNetwork/deb/DEBIAN/control
-	echo "" >> /tmp/SecretNetwork/deb/DEBIAN/control
-	cp ./deployment/deb/postinst /tmp/SecretNetwork/deb/DEBIAN/postinst
-	chmod 755 /tmp/SecretNetwork/deb/DEBIAN/postinst
-	cp ./deployment/deb/postrm /tmp/SecretNetwork/deb/DEBIAN/postrm
-	chmod 755 /tmp/SecretNetwork/deb/DEBIAN/postrm
-	cp ./deployment/deb/triggers /tmp/SecretNetwork/deb/DEBIAN/triggers
-	chmod 755 /tmp/SecretNetwork/deb/DEBIAN/triggers
-	dpkg-deb --build /tmp/SecretNetwork/deb/ .
-	-rm -rf /tmp/SecretNetwork
+	mkdir -p /tmp/HermitMatrixNetwork/deb/DEBIAN
+	cp ./deployment/deb/control /tmp/HermitMatrixNetwork/deb/DEBIAN/control
+	printf "Version: " >> /tmp/HermitMatrixNetwork/deb/DEBIAN/control
+	printf "$(VERSION)" >> /tmp/HermitMatrixNetwork/deb/DEBIAN/control
+	echo "" >> /tmp/HermitMatrixNetwork/deb/DEBIAN/control
+	cp ./deployment/deb/postinst /tmp/HermitMatrixNetwork/deb/DEBIAN/postinst
+	chmod 755 /tmp/HermitMatrixNetwork/deb/DEBIAN/postinst
+	cp ./deployment/deb/postrm /tmp/HermitMatrixNetwork/deb/DEBIAN/postrm
+	chmod 755 /tmp/HermitMatrixNetwork/deb/DEBIAN/postrm
+	cp ./deployment/deb/triggers /tmp/HermitMatrixNetwork/deb/DEBIAN/triggers
+	chmod 755 /tmp/HermitMatrixNetwork/deb/DEBIAN/triggers
+	dpkg-deb --build /tmp/HermitMatrixNetwork/deb/ .
+	-rm -rf /tmp/HermitMatrixNetwork
 
 clean:
-	-rm -rf /tmp/SecretNetwork
-	-rm -f ./secretcli*
-	-rm -f ./secretd*
+	-rm -rf /tmp/HermitMatrixNetwork
+	-rm -f ./ghmcli*
+	-rm -f ./ghmd*
 	-find -name '*.so' -delete
 	-rm -f ./enigma-blockchain*.deb
 	-rm -f ./SHA256SUMS*
@@ -212,7 +212,7 @@ clean:
 	-rm -rf ./x/compute/internal/keeper/.sgx_secrets/*
 	-rm -rf ./*.der
 	-rm -rf ./x/compute/internal/keeper/*.der
-	-rm -rf ./cmd/secretd/ias_bin*
+	-rm -rf ./cmd/ghmd/ias_bin*
 	$(MAKE) -C go-cosmwasm clean-all
 	$(MAKE) -C cosmwasm/enclaves/test clean
 
@@ -221,8 +221,8 @@ build-rocksdb-image:
 
 build-localsecret:
 	docker build --build-arg BUILD_VERSION=${VERSION} --build-arg SGX_MODE=SW --build-arg FEATURES_U="${FEATURES_U}" --build-arg FEATURES="${FEATURES},debug-print" -f deployment/dockerfiles/base.Dockerfile -t rust-go-base-image .
-	docker build --build-arg SGX_MODE=SW --build-arg SECRET_NODE_TYPE=BOOTSTRAP --build-arg CHAIN_ID=secretdev-1 -f deployment/dockerfiles/release.Dockerfile -t build-release .
-	docker build --build-arg SGX_MODE=SW --build-arg SECRET_NODE_TYPE=BOOTSTRAP --build-arg CHAIN_ID=secretdev-1 -f deployment/dockerfiles/dev-image.Dockerfile -t ghcr.io/scrtlabs/localsecret:${DOCKER_TAG} .
+	docker build --build-arg SGX_MODE=SW --build-arg SECRET_NODE_TYPE=BOOTSTRAP --build-arg CHAIN_ID=ghmdev-1 -f deployment/dockerfiles/release.Dockerfile -t build-release .
+	docker build --build-arg SGX_MODE=SW --build-arg SECRET_NODE_TYPE=BOOTSTRAP --build-arg CHAIN_ID=ghmdev-1 -f deployment/dockerfiles/dev-image.Dockerfile -t ghcr.io/scrtlabs/localsecret:${DOCKER_TAG} .
 
 build-custom-dev-image:
     # .dockerignore excludes .so files so we rename these so that the dockerfile can find them
@@ -359,7 +359,7 @@ go-tests: build-test-contract
 	cp ./cosmwasm/enclaves/execute/librust_cosmwasm_enclave.signed.so ./x/compute/internal/keeper
 	rm -rf ./x/compute/internal/keeper/.sgx_secrets
 	mkdir -p ./x/compute/internal/keeper/.sgx_secrets
-	GOMAXPROCS=8 SGX_MODE=SW SCRT_SGX_STORAGE='./' go test -failfast -timeout 1200s -v ./x/compute/internal/... $(GO_TEST_ARGS)
+	GOMAXPROCS=8 SGX_MODE=SW GHM_SGX_STORAGE='./' go test -failfast -timeout 1200s -v ./x/compute/internal/... $(GO_TEST_ARGS)
 
 go-tests-hw: build-test-contract
 	# empty BUILD_PROFILE means debug mode which compiles faster
@@ -412,13 +412,13 @@ build-erc20-contract: build-test-contract
 bin-data: bin-data-sw bin-data-develop bin-data-production
 
 bin-data-sw:
-	cd ./cmd/secretd && go-bindata -o ias_bin_sw.go -prefix "../../ias_keys/sw_dummy/" -tags "!hw" ../../ias_keys/sw_dummy/...
+	cd ./cmd/ghmd && go-bindata -o ias_bin_sw.go -prefix "../../ias_keys/sw_dummy/" -tags "!hw" ../../ias_keys/sw_dummy/...
 
 bin-data-develop:
-	cd ./cmd/secretd && go-bindata -o ias_bin_dev.go -prefix "../../ias_keys/develop/" -tags "develop,hw" ../../ias_keys/develop/...
+	cd ./cmd/ghmd && go-bindata -o ias_bin_dev.go -prefix "../../ias_keys/develop/" -tags "develop,hw" ../../ias_keys/develop/...
 
 bin-data-production:
-	cd ./cmd/secretd && go-bindata -o ias_bin_prod.go -prefix "../../ias_keys/production/" -tags "production,hw" ../../ias_keys/production/...
+	cd ./cmd/ghmd && go-bindata -o ias_bin_prod.go -prefix "../../ias_keys/production/" -tags "production,hw" ../../ias_keys/production/...
 
 # Before running this you might need to do:
 # 1. sudo docker login -u ABC -p XYZ

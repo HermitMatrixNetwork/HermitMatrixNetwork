@@ -5,10 +5,10 @@ services:
     image: enigmampc/secret-network-sw-dev-custom-bootstrap:latest
     container_name: bootstrap
     volumes:
-#      - /tmp/secretcli:/root/.secretcli
-      - /tmp/secretd-bootstrap:/root/.secretd
-#      - /tmp/secretdbootstrap:/root/.secretd
-      - /tmp/sgx_secrets:/opt/secret/.sgx_secrets
+#      - /tmp/ghmcli:/root/.ghmcli
+      - /tmp/ghmd-bootstrap:/root/.ghmd
+#      - /tmp/ghmdbootstrap:/root/.ghmd
+      - /tmp/sgx_secrets:/opt/ghm/.sgx_ghms
     stdin_open: true
     tty: true
     environment:
@@ -31,10 +31,10 @@ services:
 #    depends_on:
 #      - bootstrap
 #    volumes:
-#      - /tmp/secretd-bootstrap:/tmp/.secretd
-##      - /tmp/secretdbootstrap:/tmp/.secretd
-#      - /tmp/secretd-node:/root/.secretd
-#      - /tmp/secretcli:/root/.secretcli
+#      - /tmp/ghmd-bootstrap:/tmp/.ghmd
+##      - /tmp/ghmdbootstrap:/tmp/.ghmd
+#      - /tmp/ghmd-node:/root/.ghmd
+#      - /tmp/ghmcli:/root/.ghmcli
 ##      - /tmp/sgx_secrets:/root/.sgx_secrets
 #    stdin_open: true
 #    tty: true

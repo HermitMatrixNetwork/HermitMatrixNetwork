@@ -1,4 +1,4 @@
-chain-id = "secretdev-1"
+chain-id = "ghmdev-1"
 #indent = true
 keyring-backend = "test"
 output = "json"

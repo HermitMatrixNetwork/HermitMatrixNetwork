@@ -1,4 +1,5 @@
-// +build secretcli
+//go:build ghmcli
+// +build ghmcli
 
 package main
 
@@ -19,7 +20,7 @@ blockchain. Writes the certificate in DER format to ~/attestation_cert
 `,
 		Args: cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println("This is a secretd only function, yo")
+			println("This is a ghmd only function, yo")
 			return nil
 		},
 	}
@@ -39,7 +40,7 @@ blockchain. Writes the certificate in DER format to ~/attestation_cert
 `,
 		Args: cobra.MaximumNArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println("This is a secretd only function, yo")
+			println("This is a ghmd only function, yo")
 			return nil
 		},
 	}
@@ -55,7 +56,7 @@ func ParseCert() *cobra.Command {
 			"register the node, during node initialization",
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println("This is a secretd only function, yo")
+			println("This is a ghmd only function, yo")
 			return nil
 		},
 	}
@@ -70,7 +71,7 @@ func ConfigureSecret() *cobra.Command {
 			"seed that was written on-chain",
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println("This is a secretd only function, yo")
+			println("This is a ghmd only function, yo")
 			return nil
 		},
 	}
@@ -85,7 +86,7 @@ func HealthCheck() *cobra.Command {
 		Long:  "Help diagnose issues by performing a basic sanity test that SGX is working properly",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println("This is a secretd only function, yo")
+			println("This is a ghmd only function, yo")
 			return nil
 		},
 	}
@@ -101,7 +102,7 @@ func ResetEnclave() *cobra.Command {
 			"You will have to go through registration again to be able to start the node",
 		Args: cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println("This is a secretd only function, yo")
+			println("This is a ghmd only function, yo")
 			return nil
 		},
 	}
@@ -118,7 +119,7 @@ Please report any issues with this command
 `,
 		Args: cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println("This is a secretd only function, yo")
+			println("This is a ghmd only function, yo")
 			return nil
 		},
 	}

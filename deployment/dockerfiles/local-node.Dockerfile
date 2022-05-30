@@ -25,26 +25,26 @@ COPY deployment/ci/startup.sh .
 RUN true
 COPY deployment/ci/node_key.json .
 
-RUN chmod +x /usr/bin/secretd
-# RUN chmod +x /usr/bin/secretcli
+RUN chmod +x /usr/bin/ghmd
+# RUN chmod +x /usr/bin/ghmcli
 RUN chmod +x wasmi-sgx-test.sh
 RUN chmod +x bootstrap_init.sh
 RUN chmod +x startup.sh
 RUN chmod +x node_init.sh
 
 
-#RUN mkdir -p /root/.secretd/.compute/
+#RUN mkdir -p /root/.ghmd/.compute/
 #RUN mkdir -p /root/.sgx_secrets/
-#RUN mkdir -p /root/.secretd/.node/
+#RUN mkdir -p /root/.ghmd/.node/
 
 # Enable autocomplete
-#RUN secretcli completion > /root/secretcli_completion
-#RUN secretd completion > /root/secretd_completion
+#RUN ghmcli completion > /root/ghmcli_completion
+#RUN ghmd completion > /root/ghmd_completion
 #
-#RUN echo 'source /root/secretd_completion' >> ~/.bashrc
-#RUN echo 'source /root/secretcli_completion' >> ~/.bashrc
+#RUN echo 'source /root/ghmd_completion' >> ~/.bashrc
+#RUN echo 'source /root/ghmcli_completion' >> ~/.bashrc
 
 #ENV LD_LIBRARY_PATH=/opt/sgxsdk/libsgx-enclave-common/:/opt/sgxsdk/lib64/
 
-# Run secretd by default, omit entrypoint to ease using container with secretcli
+# Run ghmd by default, omit entrypoint to ease using container with ghmcli
 ENTRYPOINT ["/bin/bash", "startup.sh"]

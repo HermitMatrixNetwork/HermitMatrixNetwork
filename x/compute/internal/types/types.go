@@ -3,11 +3,11 @@ package types
 import (
 	"encoding/base64"
 
+	wasmTypes "github.com/HermitMatrixNetwork/HermitMatrixNetwork/go-cosmwasm/types"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	sdktxsigning "github.com/cosmos/cosmos-sdk/types/tx/signing"
-	wasmTypes "github.com/enigmampc/SecretNetwork/go-cosmwasm/types"
 	"github.com/spf13/cast"
 )
 
@@ -186,7 +186,7 @@ func NewEnv(ctx sdk.Context, creator sdk.AccAddress, deposit sdk.Coins, contract
 		Contract: wasmTypes.ContractInfo{
 			Address: contractAddr.String(),
 		},
-		Key: wasmTypes.ContractKey(base64.StdEncoding.EncodeToString(contractKey)),
+		Key:       wasmTypes.ContractKey(base64.StdEncoding.EncodeToString(contractKey)),
 		Recursive: false,
 	}
 	return env
