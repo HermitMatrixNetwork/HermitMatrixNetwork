@@ -5,22 +5,22 @@ set -euvo pipefail
 rm -rf ~/.ghmd/*
 rm -rf /opt/ghm/.sgx_ghms/*
 
-ghmd config chain-id ghmdev-1
+ghmd config chain-id ghmdev
 ghmd config keyring-backend test
 
-ghmd init banana --chain-id ghmdev-1
+ghmd init banana --chain-id ghmdev
 
 cp ~/node_key.json ~/.ghmd/config/node_key.json
-perl -i -pe 's/"stake"/ "uscrt"/g' ~/.ghmd/config/genesis.json
+perl -i -pe 's/"stake"/ "uGHM"/g' ~/.ghmd/config/genesis.json
 
 ghmd keys add a
 ghmd keys add b
 ghmd keys add c
 ghmd keys add d
 
-ghmd add-genesis-account "$(ghmd keys show -a a)" 1000000000000000000uscrt
+ghmd add-genesis-account "$(ghmd keys show -a a)" 100000000uGHM
 
-ghmd gentx a 1000000uscrt --chain-id ghmdev-1
+ghmd gentx a 10000000uGHM --chain-id ghmdev --gas-prices 0.25uGHM
 
 ghmd collect-gentxs
 ghmd validate-genesis
