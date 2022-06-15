@@ -5,19 +5,24 @@ CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 DOCKER := $(shell which docker)
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
 
+# 账本启用？
 LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
 BUILD_PROFILE ?= release
 DEB_BIN_DIR ?= /usr/local/bin
 DEB_LIB_DIR ?= /usr/lib
 
+# 使用的db类型
 DB_BACKEND ?= goleveldb
 
+# SGX 模式
 SGX_MODE ?= HW
 BRANCH ?= develop
 DEBUG ?= 0
+# docker 标签
 DOCKER_TAG ?= latest
 
+# 配置SGX模式
 ifeq ($(SGX_MODE), HW)
 	ext := hw
 else ifeq ($(SGX_MODE), SW)
@@ -26,6 +31,7 @@ else
 $(error SGX_MODE must be either HW or SW)
 endif
 
+# 配置 db 类型
 ifeq ($(DB_BACKEND), rocksdb)
 	DB_BACKEND = rocksdb
 	DOCKER_CGO_LDFLAGS = "-L/usr/lib/x86_64-linux-gnu/ -lrocksdb -lstdc++ -llz4 -lm -lz -lbz2 -lsnappy"
@@ -39,6 +45,7 @@ else
 $(error DB_BACKEND must be one of: rocksdb/cleveldb/goleveldb)
 endif
 
+# 目前所在的目录
 CUR_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 build_tags = netgo
@@ -65,12 +72,15 @@ ifeq ($(LEDGER_ENABLED),true)
   endif
 endif
 
+# 英特尔的远程证明模式 （证明提供了 生产模式 和 开发模式）
 IAS_BUILD = sw
 
 ifeq ($(SGX_MODE), HW)
   ifneq (,$(findstring production,$(FEATURES)))
+    # 生产模式
     IAS_BUILD = production
   else
+  	# 开发模式
     IAS_BUILD = develop
   endif
 
@@ -93,6 +103,7 @@ whitespace += $(whitespace)
 comma := ,
 build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
+# 设置go应用程序的版本信息，编译的时候注入
 ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=HermitMatrixNetwork \
 	-X github.com/cosmos/cosmos-sdk/version.AppName=ghmd \
 	-X github.com/HermitMatrixNetwork/HermitMatrixNetwork/cmd/ghmcli/version.ClientName=ghmcli \

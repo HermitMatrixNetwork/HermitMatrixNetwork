@@ -2,7 +2,7 @@
 set -euv
 
 export GHM_SGX_STORAGE=/opt/ghm/.sgx_ghms
-export SCRT_ENCLAVE_DIR=/usr/lib
+export GHM_ENCLAVE_DIR=/usr/lib
 
 FORCE_REGISTER=${FORCE_REGISTER:-}
 FORCE_SYNC=${FORCE_SYNC:-}

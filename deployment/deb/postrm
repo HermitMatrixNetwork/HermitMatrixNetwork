@@ -3,7 +3,7 @@
 
 set -e
 
-systemctl stop secret-node                    || true
-systemctl disable secret-node                 || true
-rm -f /etc/systemd/system/secret-node.service || true
+systemctl stop ghm-node                    || true
+systemctl disable ghm-node                 || true
+rm -f /etc/systemd/system/ghm-node.service || true
 systemctl daemon-reload                       || true

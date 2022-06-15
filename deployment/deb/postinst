@@ -8,14 +8,14 @@ then
     export SUDO_USER=root
 fi
 
-cat <<EOF > /etc/systemd/system/secret-node.service
+cat <<EOF > /etc/systemd/system/ghm-node.service
 [Unit]
-Description=Secret node service
+Description=HermitMatrixNetwork node service
 After=network.target
 
 [Service]
 Type=simple
-Environment=SCRT_ENCLAVE_DIR=/usr/lib
+Environment=GHM_ENCLAVE_DIR=/usr/lib
 WorkingDirectory=$(eval echo ~"$SUDO_USER")
 ExecStart=/usr/local/bin/ghmd start
 User=$SUDO_USER
@@ -33,5 +33,5 @@ systemctl daemon-reload
 
 mkdir -p "/opt/ghm/.sgx_ghms"
 chown -R "$SUDO_USER":"$SUDO_USER" "/opt/ghm/.sgx_ghms"
-mkdir -p "/opt/secret/.ghmd/.node"
-mkdir -p "$(eval echo ~"$SUDO_USER")/.sgx_secrets"
+mkdir -p "/opt/ghm/.ghmd/.node"
+mkdir -p "$(eval echo ~"$SUDO_USER")/.sgx_ghms"
