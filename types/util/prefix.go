@@ -16,8 +16,8 @@ const (
 	// Bech32PrefixConsPub defines the Bech32 prefix of a consensus node public key
 	Bech32PrefixConsPub = "ghmvalconspub"
 
-	CoinType    = 529
-	CoinPurpose = 44
+	//CoinType    = 529
+	//CoinPurpose = 44
 )
 
 var (

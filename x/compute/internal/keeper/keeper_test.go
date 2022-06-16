@@ -343,7 +343,8 @@ func TestInstantiate(t *testing.T) {
 	// create with no balance is also legal
 	contractAddr, err := keeper.Instantiate(ctx, contractID, creator /* , nil */, initMsgBz, "demo contract 1", nil, nil)
 	require.NoError(t, err)
-	require.Equal(t, "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg", contractAddr.String())
+	//require.Equal(t, "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg", contractAddr.String())
+	require.Equal(t, "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n89fkfxf0", contractAddr.String())
 
 	gasAfter := ctx.GasMeter().GasConsumed()
 	require.Greater(t, gasAfter-gasBefore, uint64(10000))
@@ -574,7 +575,8 @@ func TestExecute(t *testing.T) {
 
 	require.NoError(t, err)
 
-	require.Equal(t, "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg", addr.String())
+	//require.Equal(t, "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg", addr.String())
+	require.Equal(t, "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n89fkfxf0", addr.String())
 
 	// ensure bob doesn't exist
 	bobAcct := accKeeper.GetAccount(ctx, bob)

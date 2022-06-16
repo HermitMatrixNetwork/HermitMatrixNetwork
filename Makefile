@@ -182,6 +182,7 @@ build_all: build-linux build_windows_cli build_macos_cli build_linux_arm64_cli
 
 deb: build-linux deb-no-compile
 
+# 打包 deb包
 deb-no-compile:
     ifneq ($(UNAME_S),Linux)
 		exit 1

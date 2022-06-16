@@ -46,7 +46,7 @@ was sent:
     },
     {
       "key": "contract_address",
-      "value": "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
+      "value": "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
     }
   ]
 }
@@ -63,7 +63,7 @@ provide a initial balance in the same `MsgInstantiateContract`. We see the follo
     "Attr": [
       {
         "key": "recipient",
-        "value": "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
+        "value": "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
       },
       {
         "key": "sender",
@@ -90,7 +90,7 @@ Here is an example from the escrow contract successfully releasing funds to the 
   "Attr": [
     {
       "key": "contract_address",
-      "value": "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
+      "value": "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
     },
     {
       "key": "action",
@@ -124,7 +124,7 @@ was executed (which always appears, while 2 is optional and has information as r
     "Attr": [
       {
         "key": "recipient",
-        "value": "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
+        "value": "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
       },
       {
         "key": "sender",
@@ -141,7 +141,7 @@ was executed (which always appears, while 2 is optional and has information as r
     "Attr": [
       {
         "key": "contract_address",
-        "value": "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
+        "value": "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
       },
       {
         "key": "action",
@@ -162,7 +162,7 @@ was executed (which always appears, while 2 is optional and has information as r
       },
       {
         "key": "sender",
-        "value": "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
+        "value": "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
       },
       {
         "key": "amount",
@@ -187,7 +187,7 @@ was executed (which always appears, while 2 is optional and has information as r
       },
       {
         "key": "contract_address",
-        "value": "secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
+        "value": "ghm18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg"
       }
     ]
   }
