@@ -23,8 +23,8 @@ const flagAmount = "amount"
 // S20GetQueryCmd GetQueryCmd returns the cli query commands for this module
 func S20GetQueryCmd() *cobra.Command {
 	s20QueryCmd := &cobra.Command{
-		Use:                        "snip20",
-		Short:                      "Querying commands for the secret20 contracts",
+		Use:                        "hmip20",
+		Short:                      "Querying commands for the HermitMatrixNetwork20 contracts",
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
 		RunE:                       client.ValidateCmd,
@@ -42,8 +42,8 @@ func S20GetQueryCmd() *cobra.Command {
 // S20GetTxCmd GetTxCmd returns the transaction commands for this module
 func S20GetTxCmd() *cobra.Command {
 	s20TxCmd := &cobra.Command{
-		Use:                        "snip20",
-		Short:                      "Snip20 transactions subcommands",
+		Use:                        "hmip20",
+		Short:                      "hmip20 transactions subcommands",
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
 		RunE:                       client.ValidateCmd,
@@ -353,8 +353,8 @@ you're doing`,
 func s20DepositCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "deposit [contract address or label]",
-		Short: "Convert your SCRT into a secret token",
-		Long:  `Convert your SCRT into a secret token. This command will only work if the token supports native currency conversion`,
+		Short: "Convert your GHM into a secret token",
+		Long:  `Convert your GHM into a secret token. This command will only work if the token supports native currency conversion`,
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 
@@ -378,7 +378,7 @@ func s20DepositCmd() *cobra.Command {
 	}
 
 	flags.AddTxFlagsToCmd(cmd)
-	cmd.Flags().String(flagAmount, "", "The amount of currency to deposit in the contract, e.g. 1000000uscrt")
+	cmd.Flags().String(flagAmount, "", "The amount of currency to deposit in the contract, e.g. 1000000uGHM")
 	_ = cmd.MarkFlagRequired(flagAmount)
 
 	return cmd
@@ -387,8 +387,8 @@ func s20DepositCmd() *cobra.Command {
 func s20Redeem() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "redeem [contract address or label] [amount]",
-		Short: "Convert your secret token back to SCRT",
-		Long:  `Convert your secret token back to SCRT. This command will only work if the token supports native currency conversion`,
+		Short: "Convert your secret token back to GHM",
+		Long:  `Convert your secret token back to GHM. This command will only work if the token supports native currency conversion`,
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 

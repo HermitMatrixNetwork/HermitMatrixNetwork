@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	scrt "github.com/HermitMatrixNetwork/HermitMatrixNetwork/types"
+	ghm "github.com/HermitMatrixNetwork/HermitMatrixNetwork/types"
 	"github.com/HermitMatrixNetwork/HermitMatrixNetwork/x/compute"
 	"github.com/cosmos/cosmos-sdk/codec"
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
@@ -78,10 +78,10 @@ func NewRootCmd() (*cobra.Command, app.EncodingConfig) {
 	config := sdk.GetConfig()
 	//config.SetCoinType(scrt.CoinType)
 	//config.SetPurpose(scrt.CoinPurpose)
-	config.SetBech32PrefixForAccount(scrt.Bech32PrefixAccAddr, scrt.Bech32PrefixAccPub)
-	config.SetBech32PrefixForValidator(scrt.Bech32PrefixValAddr, scrt.Bech32PrefixValPub)
-	config.SetBech32PrefixForConsensusNode(scrt.Bech32PrefixConsAddr, scrt.Bech32PrefixConsPub)
-	config.SetAddressVerifier(scrt.AddressVerifier)
+	config.SetBech32PrefixForAccount(ghm.Bech32PrefixAccAddr, ghm.Bech32PrefixAccPub)
+	config.SetBech32PrefixForValidator(ghm.Bech32PrefixValAddr, ghm.Bech32PrefixValPub)
+	config.SetBech32PrefixForConsensusNode(ghm.Bech32PrefixConsAddr, ghm.Bech32PrefixConsPub)
+	config.SetAddressVerifier(ghm.AddressVerifier)
 	config.Seal()
 
 	initClientCtx := client.Context{}.
@@ -98,7 +98,7 @@ func NewRootCmd() (*cobra.Command, app.EncodingConfig) {
 
 	rootCmd := &cobra.Command{
 		Use:   "ghmd",
-		Short: "The Secret Network App Daemon (server)",
+		Short: "The HermitMatrixNetwork Network App Daemon (server)",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			cmd.SetOut(cmd.OutOrStdout())
 			cmd.SetErr(cmd.ErrOrStderr())
@@ -343,7 +343,7 @@ func updateTmParamsAndInit(mbm module.BasicManager, defaultNodeHome string) *cob
 
 		appConfigFilePath := filepath.Join(defaultNodeHome, "config/app.toml")
 		appConf, _ := serverconfig.ParseConfig(viper.GetViper())
-		appConf.MinGasPrices = "0.25uscrt"
+		appConf.MinGasPrices = "0.25uGHM"
 
 		serverconfig.WriteConfigFile(appConfigFilePath, appConf)
 
