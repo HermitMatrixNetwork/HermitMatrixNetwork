@@ -128,7 +128,7 @@ require (
 )
 
 replace (
-	github.com/cosmos/cosmos-sdk v0.45.4 => github.com/HermitMatrixNetwork/cosmos-sdk v0.45.4-secret.1.0.20220601103616-0a9c51d4ce62
+	github.com/cosmos/cosmos-sdk v0.45.4 => github.com/HermitMatrixNetwork/cosmos-sdk v0.45.4-hermit
 	//github.com/cosmos/cosmos-sdk v0.45.4 => ../cosmos-sdk
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	// enforce grpc version
