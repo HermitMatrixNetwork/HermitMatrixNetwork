@@ -42,17 +42,14 @@ query-node = []
 
 [dependencies]
 # Uses the path when built locally; uses the given version from crates.io when published
-cosmwasm-std = { path = "../std", package = "secret-cosmwasm-std", version = "0.10.0" }
+cosmwasm-std = { path = "../std", package = "hermit-cosmwasm-std", version = "0.10.0" }
 serde_json = "1.0"
 # wasmer-runtime-core = "=0.17.0"
 # wasmer-middleware-common = "=0.17.0"
 # wasmer-clif-backend = { version = "=0.17.0", optional = true }
 # wasmer-singlepass-backend = { version = "=0.17.0", optional = true }
 schemars = "0.7"
-serde = { version = "1.0.103", default-features = false, features = [
-    "derive",
-    "alloc"
-] }
+serde = { version = "1.0.103", default-features = false, features = ["derive", "alloc"] }
 snafu = { version = "0.6.3" }
 sha2 = "0.9.1"
 hex = "0.4"
@@ -61,9 +58,7 @@ parity-wasm = "0.41"
 
 # requirements specific to Secret Network
 lazy_static = "1.4"
-enclave-ffi-types = { path = "../../enclaves/ffi-types", features = [
-    "build_headers"
-] }
+enclave-ffi-types = { path = "../../enclaves/ffi-types", features = ["build_headers"] }
 sgx_types = { git = "https://github.com/apache/teaclave-sgx-sdk.git", rev = "a37ffb9449ba6d5b6e4a9d586bbab864ae732269" }
 sgx_urts = { git = "https://github.com/apache/teaclave-sgx-sdk.git", rev = "a37ffb9449ba6d5b6e4a9d586bbab864ae732269" }
 log = "0.4.8"
