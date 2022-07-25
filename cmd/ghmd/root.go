@@ -59,7 +59,7 @@ func bindFlags(cmd *cobra.Command, v *viper.Viper) {
 	cmd.Flags().VisitAll(func(f *pflag.Flag) {
 		// Environment variables can't have dashes in them, so bind them to their equivalent
 		// keys with underscores, e.g. --favorite-color to STING_FAVORITE_COLOR
-		_ = v.BindEnv(f.Name, fmt.Sprintf("%s_%s", "SECRET_NETWORK", strings.ToUpper(strings.ReplaceAll(f.Name, "-", "_"))))
+		_ = v.BindEnv(f.Name, fmt.Sprintf("%s_%s", "HERMIT_NETWORK", strings.ToUpper(strings.ReplaceAll(f.Name, "-", "_"))))
 		_ = v.BindPFlag(f.Name, f)
 
 		// Apply the viper config value to the flag when the flag is not set and viper has a value
@@ -148,7 +148,7 @@ func Execute(rootCmd *cobra.Command) error {
 
 	rootCmd.PersistentFlags().String(flags.FlagLogLevel, zerolog.InfoLevel.String(), "The logging level (trace|debug|info|warn|error|fatal|panic)")
 	rootCmd.PersistentFlags().String(flags.FlagLogFormat, tmcfg.LogFormatPlain, "The logging format (json|plain)")
-	executor := tmcli.PrepareBaseCmd(rootCmd, "SECRET_NETWORK", app.DefaultNodeHome)
+	executor := tmcli.PrepareBaseCmd(rootCmd, "HERMIT_NETWORK", app.DefaultNodeHome)
 	return executor.ExecuteContext(ctx)
 }
 
@@ -216,7 +216,7 @@ func queryCommand() *cobra.Command {
 		rpc.BlockCommand(),
 		authcmd.QueryTxsByEventsCmd(),
 		authcmd.QueryTxCmd(),
-		S20GetQueryCmd(),
+		Hmip20GetQueryCmd(),
 	)
 
 	app.ModuleBasics().AddQueryCommands(cmd)
@@ -247,7 +247,7 @@ func txCommand() *cobra.Command {
 		authcmd.GetDecodeCommand(),
 		flags.LineBreak,
 		//vestingcli.GetTxCmd(),
-		S20GetTxCmd(),
+		Hmip20GetTxCmd(),
 	)
 
 	app.ModuleBasics().AddTxCommands(cmd)

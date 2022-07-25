@@ -4,7 +4,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
@@ -20,8 +19,6 @@ import (
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	"github.com/spf13/cobra"
 	"io/ioutil"
-	"log"
-	"net/http"
 	"os"
 	"path/filepath"
 )
@@ -33,8 +30,8 @@ const flagCustomRegistrationService = "registration-service"
 const flagLegacyRegistrationNode = "registration-node"
 const flagLegacyBootstrapNode = "node"
 
-const mainnetRegistrationService = "https://mainnet-register.scrtlabs.com/api/registernode"
-const pulsarRegistrationService = "https://testnet-register.scrtlabs.com/api/registernode"
+//const mainnetRegistrationService = "https://mainnet-register.scrtlabs.com/api/registernode"
+//const pulsarRegistrationService = "https://testnet-register.scrtlabs.com/api/registernode"
 
 func InitAttestation() *cobra.Command {
 
@@ -403,181 +400,182 @@ Please report any issues with this command
 		Args: cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 
-			sgxSecretsFolder := os.Getenv("GHM_SGX_STORAGE")
-			if sgxSecretsFolder == "" {
-				sgxSecretsFolder = os.ExpandEnv("/opt/ghm/.sgx_ghms")
-			}
-
-			sgxEnclaveKeyPath := filepath.Join(sgxSecretsFolder, reg.EnclaveRegistrationKey)
-			sgxAttestationCert := filepath.Join(sgxSecretsFolder, reg.AttestationCertPath)
-
-			resetFlag, err := cmd.Flags().GetBool(flagReset)
-			if err != nil {
-				return fmt.Errorf("error with reset flag: %s", err)
-			}
-
-			if !resetFlag {
-				if _, err := os.Stat(sgxEnclaveKeyPath); os.IsNotExist(err) {
-					fmt.Println("Creating new enclave registration key")
-					_, err := api.KeyGen()
-					if err != nil {
-						return fmt.Errorf("failed to initialize enclave: %w", err)
-					}
-				} else {
-					fmt.Println("Enclave key already exists. If you wish to overwrite and reset the node, use the --reset flag")
-					return nil
-				}
-			} else {
-				fmt.Println("Reset enclave flag set, generating new enclave registration key. You must now re-register the node")
-				_, err := api.KeyGen()
-				if err != nil {
-					return fmt.Errorf("failed to initialize enclave: %w", err)
-				}
-			}
-
-			spidFile, err := Asset("spid.txt")
-			if err != nil {
-				return fmt.Errorf("failed to initialize enclave: %w", err)
-			}
-
-			apiKeyFile, err := Asset("api_key.txt")
-			if err != nil {
-				return fmt.Errorf("failed to initialize enclave: %w", err)
-			}
-
-			_, err = api.CreateAttestationReport(spidFile, apiKeyFile)
-			if err != nil {
-				return fmt.Errorf("failed to create attestation report: %w", err)
-			}
-
-			// read the attestation certificate that we just created
-			cert, err := ioutil.ReadFile(sgxAttestationCert)
-			if err != nil {
-				_ = os.Remove(sgxAttestationCert)
-				return err
-			}
-
-			_ = os.Remove(sgxAttestationCert)
-
-			// verify certificate
-			_, err = ra.VerifyRaCert(cert)
-			if err != nil {
-				return err
-			}
-
-			regUrl := mainnetRegistrationService
-
-			pulsarFlag, err := cmd.Flags().GetBool(flagPulsar)
-			if err != nil {
-				return fmt.Errorf("error with testnet flag: %s", err)
-			}
-
-			// register the node
-			customRegUrl, err := cmd.Flags().GetString(flagCustomRegistrationService)
-			if err != nil {
-				return err
-			}
-
-			if pulsarFlag {
-				regUrl = pulsarRegistrationService
-				log.Println("Registering node on Pulsar testnet")
-			} else if customRegUrl != "" {
-				regUrl = customRegUrl
-				log.Println("Registering node with custom registration service")
-			} else {
-				log.Println("Registering node on mainnet")
-			}
-
-			// call registration service to register us
-			data := []byte(fmt.Sprintf(`{
-				"certificate": "%s"
-			}`, base64.StdEncoding.EncodeToString(cert)))
-
-			resp, err := http.Post(fmt.Sprintf(`%s`, regUrl), "application/json", bytes.NewBuffer(data))
-			defer resp.Body.Close()
-
-			body, err := ioutil.ReadAll(resp.Body)
-			if err != nil {
-				log.Fatalln(err)
-			}
-
-			if resp.StatusCode != http.StatusOK {
-				errDetails := ErrorResponse{}
-				err := json.Unmarshal(body, &errDetails)
-				if err != nil {
-					return fmt.Errorf(fmt.Sprintf("Registration TX was not successful - %s", err))
-				}
-				return fmt.Errorf(fmt.Sprintf("Registration TX was not successful - %s", errDetails.Details))
-			}
-
-			details := OkayResponse{}
-			err = json.Unmarshal(body, &details)
-			if err != nil {
-				return fmt.Errorf(fmt.Sprintf("Error getting seed from registration service - %s", err))
-			}
-
-			seed := details.Details.Value
-			log.Printf(fmt.Sprintf(`seed: %s`, seed))
-
-			if len(seed) > 2 {
-				seed = seed[2:]
-			}
-
-			if len(seed) != reg.EncryptedKeyLength || !reg.IsHexString(seed) {
-				return fmt.Errorf("invalid encrypted seed format (requires hex string of length 96 without 0x prefix)")
-			}
-
-			regPublicKey := details.RegistrationKey
-
-			// We expect seed to be 48 bytes of encrypted data (aka 96 hex chars) [32 bytes + 12 IV]
-
-			cfg := reg.SeedConfig{
-				EncryptedKey: seed,
-				MasterCert:   regPublicKey,
-			}
-
-			cfgBytes, err := json.Marshal(&cfg)
-			if err != nil {
-				return err
-			}
-
-			homeDir, err := cmd.Flags().GetString(flags.FlagHome)
-			if err != nil {
-				return err
-			}
-
-			seedCfgFile := filepath.Join(homeDir, reg.SecretNodeCfgFolder, reg.SecretNodeSeedConfig)
-			seedCfgDir := filepath.Join(homeDir, reg.SecretNodeCfgFolder)
-
-			// create seed directory if it doesn't exist
-			_, err = os.Stat(seedCfgDir)
-			if os.IsNotExist(err) {
-				err = os.MkdirAll(seedCfgDir, 0777)
-				if err != nil {
-					return fmt.Errorf("failed to create directory '%s': %w", seedCfgDir, err)
-				}
-			}
-
-			// write seed to file - if file doesn't exist, write it. If it does, delete the existing one and create this
-			_, err = os.Stat(seedCfgFile)
-			if os.IsNotExist(err) {
-				err = ioutil.WriteFile(seedCfgFile, cfgBytes, 0644)
-				if err != nil {
-					return err
-				}
-			} else {
-				err = os.Remove(seedCfgFile)
-				if err != nil {
-					return fmt.Errorf("failed to modify file '%s': %w", seedCfgFile, err)
-				}
-
-				err = ioutil.WriteFile(seedCfgFile, cfgBytes, 0644)
-				if err != nil {
-					return fmt.Errorf("failed to create file '%s': %w", seedCfgFile, err)
-				}
-			}
-
-			fmt.Println("Done registering! Ready to start...")
+			//sgxSecretsFolder := os.Getenv("GHM_SGX_STORAGE")
+			//if sgxSecretsFolder == "" {
+			//	sgxSecretsFolder = os.ExpandEnv("/opt/ghm/.sgx_ghms")
+			//}
+			//
+			//sgxEnclaveKeyPath := filepath.Join(sgxSecretsFolder, reg.EnclaveRegistrationKey)
+			//sgxAttestationCert := filepath.Join(sgxSecretsFolder, reg.AttestationCertPath)
+			//
+			//resetFlag, err := cmd.Flags().GetBool(flagReset)
+			//if err != nil {
+			//	return fmt.Errorf("error with reset flag: %s", err)
+			//}
+			//
+			//if !resetFlag {
+			//	if _, err := os.Stat(sgxEnclaveKeyPath); os.IsNotExist(err) {
+			//		fmt.Println("Creating new enclave registration key")
+			//		_, err := api.KeyGen()
+			//		if err != nil {
+			//			return fmt.Errorf("failed to initialize enclave: %w", err)
+			//		}
+			//	} else {
+			//		fmt.Println("Enclave key already exists. If you wish to overwrite and reset the node, use the --reset flag")
+			//		return nil
+			//	}
+			//} else {
+			//	fmt.Println("Reset enclave flag set, generating new enclave registration key. You must now re-register the node")
+			//	_, err := api.KeyGen()
+			//	if err != nil {
+			//		return fmt.Errorf("failed to initialize enclave: %w", err)
+			//	}
+			//}
+			//
+			//spidFile, err := Asset("spid.txt")
+			//if err != nil {
+			//	return fmt.Errorf("failed to initialize enclave: %w", err)
+			//}
+			//
+			//apiKeyFile, err := Asset("api_key.txt")
+			//if err != nil {
+			//	return fmt.Errorf("failed to initialize enclave: %w", err)
+			//}
+			//
+			//_, err = api.CreateAttestationReport(spidFile, apiKeyFile)
+			//if err != nil {
+			//	return fmt.Errorf("failed to create attestation report: %w", err)
+			//}
+			//
+			//// read the attestation certificate that we just created
+			//cert, err := ioutil.ReadFile(sgxAttestationCert)
+			//if err != nil {
+			//	_ = os.Remove(sgxAttestationCert)
+			//	return err
+			//}
+			//
+			//_ = os.Remove(sgxAttestationCert)
+			//
+			//// verify certificate
+			//_, err = ra.VerifyRaCert(cert)
+			//if err != nil {
+			//	return err
+			//}
+			//
+			//regUrl := mainnetRegistrationService
+			//
+			//pulsarFlag, err := cmd.Flags().GetBool(flagPulsar)
+			//if err != nil {
+			//	return fmt.Errorf("error with testnet flag: %s", err)
+			//}
+			//
+			//// register the node
+			//customRegUrl, err := cmd.Flags().GetString(flagCustomRegistrationService)
+			//if err != nil {
+			//	return err
+			//}
+			//
+			//if pulsarFlag {
+			//	regUrl = pulsarRegistrationService
+			//	log.Println("Registering node on Pulsar testnet")
+			//} else if customRegUrl != "" {
+			//	regUrl = customRegUrl
+			//	log.Println("Registering node with custom registration service")
+			//} else {
+			//	log.Println("Registering node on mainnet")
+			//}
+			//
+			//// call registration service to register us
+			//data := []byte(fmt.Sprintf(`{
+			//	"certificate": "%s"
+			//}`, base64.StdEncoding.EncodeToString(cert)))
+			//
+			//resp, err := http.Post(fmt.Sprintf(`%s`, regUrl), "application/json", bytes.NewBuffer(data))
+			//defer resp.Body.Close()
+			//
+			//body, err := ioutil.ReadAll(resp.Body)
+			//if err != nil {
+			//	log.Fatalln(err)
+			//}
+			//
+			//if resp.StatusCode != http.StatusOK {
+			//	errDetails := ErrorResponse{}
+			//	err := json.Unmarshal(body, &errDetails)
+			//	if err != nil {
+			//		return fmt.Errorf(fmt.Sprintf("Registration TX was not successful - %s", err))
+			//	}
+			//	return fmt.Errorf(fmt.Sprintf("Registration TX was not successful - %s", errDetails.Details))
+			//}
+			//
+			//details := OkayResponse{}
+			//err = json.Unmarshal(body, &details)
+			//if err != nil {
+			//	return fmt.Errorf(fmt.Sprintf("Error getting seed from registration service - %s", err))
+			//}
+			//
+			//seed := details.Details.Value
+			//log.Printf(fmt.Sprintf(`seed: %s`, seed))
+			//
+			//if len(seed) > 2 {
+			//	seed = seed[2:]
+			//}
+			//
+			//if len(seed) != reg.EncryptedKeyLength || !reg.IsHexString(seed) {
+			//	return fmt.Errorf("invalid encrypted seed format (requires hex string of length 96 without 0x prefix)")
+			//}
+			//
+			//regPublicKey := details.RegistrationKey
+			//
+			//// We expect seed to be 48 bytes of encrypted data (aka 96 hex chars) [32 bytes + 12 IV]
+			//
+			//cfg := reg.SeedConfig{
+			//	EncryptedKey: seed,
+			//	MasterCert:   regPublicKey,
+			//}
+			//
+			//cfgBytes, err := json.Marshal(&cfg)
+			//if err != nil {
+			//	return err
+			//}
+			//
+			//homeDir, err := cmd.Flags().GetString(flags.FlagHome)
+			//if err != nil {
+			//	return err
+			//}
+			//
+			//seedCfgFile := filepath.Join(homeDir, reg.SecretNodeCfgFolder, reg.SecretNodeSeedConfig)
+			//seedCfgDir := filepath.Join(homeDir, reg.SecretNodeCfgFolder)
+			//
+			//// create seed directory if it doesn't exist
+			//_, err = os.Stat(seedCfgDir)
+			//if os.IsNotExist(err) {
+			//	err = os.MkdirAll(seedCfgDir, 0777)
+			//	if err != nil {
+			//		return fmt.Errorf("failed to create directory '%s': %w", seedCfgDir, err)
+			//	}
+			//}
+			//
+			//// write seed to file - if file doesn't exist, write it. If it does, delete the existing one and create this
+			//_, err = os.Stat(seedCfgFile)
+			//if os.IsNotExist(err) {
+			//	err = ioutil.WriteFile(seedCfgFile, cfgBytes, 0644)
+			//	if err != nil {
+			//		return err
+			//	}
+			//} else {
+			//	err = os.Remove(seedCfgFile)
+			//	if err != nil {
+			//		return fmt.Errorf("failed to modify file '%s': %w", seedCfgFile, err)
+			//	}
+			//
+			//	err = ioutil.WriteFile(seedCfgFile, cfgBytes, 0644)
+			//	if err != nil {
+			//		return fmt.Errorf("failed to create file '%s': %w", seedCfgFile, err)
+			//	}
+			//}
+			//
+			//fmt.Println("Done registering! Ready to start...")
+			println(" todo impl ... ")
 			return nil
 		},
 	}

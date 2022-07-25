@@ -20,9 +20,9 @@ import (
 const MessageBlockSize = 256
 const flagAmount = "amount"
 
-// S20GetQueryCmd GetQueryCmd returns the cli query commands for this module
-func S20GetQueryCmd() *cobra.Command {
-	s20QueryCmd := &cobra.Command{
+// Hmip20GetQueryCmd GetQueryCmd returns the cli query commands for this module
+func Hmip20GetQueryCmd() *cobra.Command {
+	Hmip20QueryCmd := &cobra.Command{
 		Use:                        "hmip20",
 		Short:                      "Querying commands for the HermitMatrixNetwork20 contracts",
 		DisableFlagParsing:         true,
@@ -30,18 +30,18 @@ func S20GetQueryCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	s20QueryCmd.AddCommand(
-		S20BalanceCmd(),
-		S20TransferHistoryCmd(),
-		S20TransactionHistoryCmd(),
+	Hmip20QueryCmd.AddCommand(
+		Hmip20BalanceCmd(),
+		Hmip20TransferHistoryCmd(),
+		Hmip20TransactionHistoryCmd(),
 	)
 
-	return s20QueryCmd
+	return Hmip20QueryCmd
 }
 
-// S20GetTxCmd GetTxCmd returns the transaction commands for this module
-func S20GetTxCmd() *cobra.Command {
-	s20TxCmd := &cobra.Command{
+// Hmip20GetTxCmd GetTxCmd returns the transaction commands for this module
+func Hmip20GetTxCmd() *cobra.Command {
+	Hmip20TxCmd := &cobra.Command{
 		Use:                        "hmip20",
 		Short:                      "hmip20 transactions subcommands",
 		DisableFlagParsing:         true,
@@ -49,20 +49,20 @@ func S20GetTxCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	s20TxCmd.AddCommand(
-		s20TransferCmd(),
-		s20SendCmd(),
-		s20CreatingViewingKey(),
-		s20DepositCmd(),
-		s20Redeem(),
-		s20SetViewingKey(),
-		s20BurnCmd(),
+	Hmip20TxCmd.AddCommand(
+		Hmip20TransferCmd(),
+		Hmip20SendCmd(),
+		Hmip20CreatingViewingKey(),
+		Hmip20DepositCmd(),
+		Hmip20Redeem(),
+		Hmip20SetViewingKey(),
+		Hmip20BurnCmd(),
 	)
 
-	return s20TxCmd
+	return Hmip20TxCmd
 }
 
-func S20TransferHistoryCmd() *cobra.Command {
+func Hmip20TransferHistoryCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "transfers [contract address] [account] [viewing_key] [optional: page, default: 0] [optional: page_size, default: 10]",
 		Short: "View your transfer history",
@@ -121,7 +121,7 @@ func S20TransferHistoryCmd() *cobra.Command {
 	return cmd
 }
 
-func S20TransactionHistoryCmd() *cobra.Command {
+func Hmip20TransactionHistoryCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "txs [contract address] [account] [viewing_key] [optional: page, default: 0] [optional: page_size, default: 10]",
 		Short: "View your full transaction history",
@@ -181,7 +181,7 @@ Unlike the transfers query, this query shows all kinds of transactions with the 
 	return cmd
 }
 
-func S20BalanceCmd() *cobra.Command {
+func Hmip20BalanceCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "balance [contract address] [account] [viewing_key]",
 		Short: "See your current balance for a token",
@@ -239,7 +239,7 @@ func addressFromBechOrLabel(addressOrLabel string, cliCtx client.Context) (sdk.A
 	return contractAddr, nil
 }
 
-func s20TransferCmd() *cobra.Command {
+func Hmip20TransferCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "transfer [contract address or label] [to account] [amount]",
 		Short: "Transfer tokens to another address",
@@ -280,7 +280,7 @@ func s20TransferCmd() *cobra.Command {
 	return cmd
 }
 
-func s20CreatingViewingKey() *cobra.Command {
+func Hmip20CreatingViewingKey() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-viewing-key [contract address or label]",
 		Short: "Create a new viewing key. To view the resulting key, use 'ghmcli q compute tx <TX_HASH>'",
@@ -318,7 +318,7 @@ This way you can perform balance and transaction history queries without waiting
 	return cmd
 }
 
-func s20SetViewingKey() *cobra.Command {
+func Hmip20SetViewingKey() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "set-viewing-key [contract address or label] [viewing-key]",
 		Short: "Sets the viewing key for your account",
@@ -350,7 +350,7 @@ you're doing`,
 	return cmd
 }
 
-func s20DepositCmd() *cobra.Command {
+func Hmip20DepositCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "deposit [contract address or label]",
 		Short: "Convert your GHM into a secret token",
@@ -384,7 +384,7 @@ func s20DepositCmd() *cobra.Command {
 	return cmd
 }
 
-func s20Redeem() *cobra.Command {
+func Hmip20Redeem() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "redeem [contract address or label] [amount]",
 		Short: "Convert your secret token back to GHM",
@@ -420,7 +420,7 @@ func s20Redeem() *cobra.Command {
 	return cmd
 }
 
-func s20SendCmd() *cobra.Command {
+func Hmip20SendCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "send [contract_address or label] [to_account] [amount] [optional: callback_message]",
 		Short: "Send tokens to another address. Optionally add a callback message",
@@ -466,7 +466,7 @@ If no callback provided, this is identical to 'transfer'.`,
 	return cmd
 }
 
-func s20BurnCmd() *cobra.Command {
+func Hmip20BurnCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "burn [contract_address or label] [amount]",
 		Short: "Burn tokens forever",
