@@ -11,16 +11,16 @@ ghmd config keyring-backend test
 ghmd init banana --chain-id ghmdev
 
 cp ~/node_key.json ~/.ghmd/config/node_key.json
-perl -i -pe 's/"stake"/ "uGHM"/g' ~/.ghmd/config/genesis.json
+perl -i -pe 's/"stake"/ "ughm"/g' ~/.ghmd/config/genesis.json
 
 ghmd keys add a
 ghmd keys add b
 ghmd keys add c
 ghmd keys add d
 
-ghmd add-genesis-account "$(ghmd keys show -a a)" 100000000uGHM
+ghmd add-genesis-account "$(ghmd keys show -a a)" 100000000ughm
 
-ghmd gentx a 10000000uGHM --chain-id ghmdev --gas-prices 0.25uGHM
+ghmd gentx a 10000000ughm --chain-id ghmdev --gas-prices 0.25ughm
 
 ghmd collect-gentxs
 ghmd validate-genesis

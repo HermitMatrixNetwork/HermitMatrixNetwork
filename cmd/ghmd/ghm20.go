@@ -378,7 +378,7 @@ func Hmip20DepositCmd() *cobra.Command {
 	}
 
 	flags.AddTxFlagsToCmd(cmd)
-	cmd.Flags().String(flagAmount, "", "The amount of currency to deposit in the contract, e.g. 1000000uGHM")
+	cmd.Flags().String(flagAmount, "", "The amount of currency to deposit in the contract, e.g. 1000000ughm")
 	_ = cmd.MarkFlagRequired(flagAmount)
 
 	return cmd

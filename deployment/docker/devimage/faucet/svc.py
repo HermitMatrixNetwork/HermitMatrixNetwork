@@ -53,7 +53,10 @@ def send_command(src: str, dest: str, amount: str) -> str:
 @application.route('/faucet')
 def get():  # pylint: disable=no-self-use
     address: str = request.args.get('address')
-
+    if address.startswith( 'ghm' ):
+        raise RuntimeError(f"address not start with ghm")
+    if len(address) == 42:
+        raise RuntimeError(f"address length not equal 42")
     wallet_name = os.getenv('FAUCET_WALLET_NAME', 'a')
     faucet_amount = os.getenv('FAUCET_AMOUNT', '1000000000')
 

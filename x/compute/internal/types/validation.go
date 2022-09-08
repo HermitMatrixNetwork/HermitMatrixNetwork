@@ -27,9 +27,16 @@ const (
 	BuildTagRegexp = "^[a-z0-9][a-z0-9._-]*[a-z0-9](/[a-z0-9][a-z0-9._-]*[a-z0-9])+:[a-zA-Z0-9_][a-zA-Z0-9_.-]*$"
 
 	MaxBuildTagSize = 128
+
+	MaxSourceURLSize = 512
 )
 
 func validateSourceURL(source string) error {
+
+	if len(source) > MaxSourceURLSize {
+		return sdkerrors.Wrap(ErrInvalid, "source URL cannot be longer than 512 characters")
+	}
+
 	if source != "" {
 		u, err := url.Parse(source)
 		if err != nil {
