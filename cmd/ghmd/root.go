@@ -76,8 +76,8 @@ func NewRootCmd() (*cobra.Command, app.EncodingConfig) {
 	encodingConfig := app.MakeEncodingConfig()
 
 	config := sdk.GetConfig()
-	//config.SetCoinType(scrt.CoinType)
-	//config.SetPurpose(scrt.CoinPurpose)
+	config.SetCoinType(ghm.CoinType)
+	config.SetPurpose(ghm.CoinPurpose)
 	config.SetBech32PrefixForAccount(ghm.Bech32PrefixAccAddr, ghm.Bech32PrefixAccPub)
 	config.SetBech32PrefixForValidator(ghm.Bech32PrefixValAddr, ghm.Bech32PrefixValPub)
 	config.SetBech32PrefixForConsensusNode(ghm.Bech32PrefixConsAddr, ghm.Bech32PrefixConsPub)
