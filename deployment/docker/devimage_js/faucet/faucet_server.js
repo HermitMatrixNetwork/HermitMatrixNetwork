@@ -23,7 +23,9 @@ function execShellCommand(cmd) {
         console.error("stderr in execShellCommand", stderr);
         reject(stderr);
       } else {
-        resolve(JSON.parse(stdout));
+        // resolve(JSON.parse(stdout));
+        resolve(stdout);
+        // resolve(out);
       }
     });
   });
@@ -38,12 +40,11 @@ function execShellCommand(cmd) {
  * @returns result of executing the command.
  */
 async function send_command(src_key_name, src_address, dest_address, amount) {
-  const send_message = `ghmd tx bank send ${src_address} ${dest_address} ${amount}${DENOM} --from ${src_key_name} --gas-prices 0.25ughm -y`;
+  const send_message = `ghmd tx bank send ${src_address} ${dest_address} ${amount}${DENOM} --from ${src_key_name} --gas-prices 0.25ughm --chain-id ghmdev -y`;
   console.log(`send_message: \n ${send_message}`);
 
   const result = await execShellCommand(send_message);
-  console.log(`Sent tokens with txhash: ${result.txhash}`);
-  return result.txhash;
+  return result
 }
 
 /**
@@ -59,15 +60,17 @@ async function get_address(key_name) {
 
   const list_keys = "ghmd keys list";
   const result = await execShellCommand(list_keys);
+  const out = result.substring(37,79)
+  faucet_address = out
 
-  for (index in result) {
-    const key = result[index];
-    if (key["name"] == key_name) {
-      console.log(`Found key with address: ${key["address"]}`);
-      faucet_address = key["address"];
-      break;
-    }
-  }
+  // for (index in result) {
+  //   const key = result[index];
+  //   if (key["name"] == key_name) {
+  //     console.log(`Found key with address: ${key["address"]}`);
+  //     faucet_address = key["address"];
+  //     break;
+  //   }
+  // }
 
   return faucet_address;
 }
@@ -129,15 +132,16 @@ server.on("request", async (req, res) => {
         res.end();
         return;
       } else {
-        const txhash = await send_command(
+        const result = await send_command(
           FAUCET_WALLET_NAME,
           faucet_address,
           address,
           FAUCET_AMOUNT
         );
-
+        
+        txHash = result.split('txhash: ')[1]
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.write(JSON.stringify({ txhash: txhash }));
+        res.write(JSON.stringify({ txhash: txHash}));
         res.end();
       }
     } else {
